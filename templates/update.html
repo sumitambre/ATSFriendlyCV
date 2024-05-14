@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Details</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
+    <script type="text/javascript" src="{{url_for('static', filename='script/update-handler.js')}}"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <form method="POST">
+                <h1>CV Details</h1>
+                <h2>Contact Information</h2>
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Full Name" value="{{ cv.full_name }}"><br>
+
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" id="phoneNumber" name="phoneNumber" value="{{ cv.phone_number }}"><br>
+
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" value="{{ cv.email }}"><br>
+
+                <label for="linkedin">LinkedIn Profile:</label>
+                <input type="url" id="linkedin" name="linkedin" value="{{ cv.linkedin }}"><br>
+
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" value="{{ cv.address }}"><br>
+
+                <label for="professional_summary">Professional Summary:</label>
+                <textarea type="text" id="professional_summary" name="professional_summary"
+                    rows="4">{{ cv.professional_summary }} </textarea><br>
+
+
+                <div id="workExperienceSection">
+                    <h2>Work Experience</h2>
+                    <div id="workExperienceContainer">
+                        {% for exp in cv.work_experiences %}
+                        <div class="work-experience">
+                            <label for="companyName{{ loop.index }}">Company Name:</label>
+                            <input type="text" id="companyName{{ loop.index }}" name="companyName{{ loop.index }}"
+                                value="{{ exp.company_name }}"><br>
+
+                            <label for="city{{ loop.index }}">City and Country:</label>
+                            <input type="text" id="city{{ loop.index }}" name="city{{ loop.index }}"
+                                value="{{ exp.city }}"><br>
+
+                            <label for="role{{ loop.index }}">Role:</label>
+                            <input type="text" id="role{{ loop.index }}" name="role{{ loop.index }}"
+                                value="{{ exp.position }}"><br>
+
+                            <label for="roleDescription{{ loop.index }}">Role Description:</label>
+                            <textarea id="roleDescription{{ loop.index }}"
+                                name="roleDescription{{ loop.index }}">{{ exp.description }}</textarea><br>
+                            <div class="date-inputs">
+                                <label for="startMonth{{ loop.index }}">Start:</label>
+                                <input type="text" id="startMonth{{ loop.index }}" name="startMonth{{ loop.index }}"
+                                    value="{{ exp.start_month }}"><br>
+
+                                <label for="startYear{{ loop.index }}">/</label>
+                                <input type="text" id="startYear{{ loop.index }}" name="startYear{{ loop.index }}"
+                                    value="{{ exp.start_year }}"><br>
+                            </div>
+                            <div class="date-inputs">
+                                <label for="endMonth{{ loop.index }}">End:</label>
+                                <input type="text" id="endMonth{{ loop.index }}" name="endMonth{{ loop.index }}"
+                                    value="{{ exp.end_month }}"><br>
+
+                                <label for="endYear{{ loop.index }}">/</label>
+                                <input type="text" id="endYear{{ loop.index }}" name="endYear{{ loop.index }}"
+                                    value="{{ exp.end_year }}"><br>
+                            </div>
+                            <input type="checkbox" id="current{{ loop.index }}" name="current{{ loop.index }}"
+                                value="working" {% if exp.currentWorking=="working" %}checked{% endif %}>
+                            <label for="current{{ loop.index }}">I am working here currently.</label><br>
+
+                            <button type="button" class="removeBtn"
+                                onclick="removeSection(this, 'work-experience', 'experienceCount')">Remove</button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button id="addWorkExperienceBtn" type="button">Add Work Experience</button>
+                    <input type="hidden" id="experienceCount" name="experienceCount"
+                        value="{{ cv.work_experiences|length }}">
+                </div>
+
+                <h2>Education</h2>
+                <div id="educationContainer">
+                    {% for edu in cv.educations %}
+                    <div class="education-entry">
+                        <label for="institutionName{{ loop.index }}">Institution Name:</label>
+                        <input type="text" id="institutionName{{ loop.index }}" name="institutionName{{ loop.index }}"
+                            value="{{ edu.institution_name }}"><br>
+
+                        <label for="city{{ loop.index }}">City and Country:</label>
+                        <input type="text" id="cityEdu{{ loop.index }}" name="city{{ loop.index }}"
+                            value="{{ edu.city }}"><br>
+
+
+                        <label for="degree{{ loop.index }}">Degree:</label>
+                        <input type="text" id="degree{{ loop.index }}" name="degree{{ loop.index }}"
+                            value="{{ edu.degree }}"><br>
+                        <div class="date-inputs">
+                            <label for="startMonthEdu{{ loop.index }}">Start Month:</label>
+                            <input type="text" id="startMonthEdu{{ loop.index }}" name="startMonthEdu{{ loop.index }}"
+                                value="{{ edu.start_month }}"><br>
+
+                            <label for="startYearEdu{{ loop.index }}">Start Year:</label>
+                            <input type="text" id="startYearEdu{{ loop.index }}" name="startYearEdu{{ loop.index }}"
+                                value="{{ edu.start_year }}"><br>
+                        </div>
+                        <div class="date-inputs">
+                            <label for="endMonthEdu{{ loop.index }}">End Month:</label>
+                            <input type="text" id="endMonthEdu{{ loop.index }}" name="endMonthEdu{{ loop.index }}"
+                                value="{{ edu.end_month }}"><br>
+
+                            <label for="endYearEdu{{ loop.index }}">End Year:</label>
+                            <input type="text" id="endYearEdu{{ loop.index }}" name="endYearEdu{{ loop.index }}"
+                                value="{{ edu.end_year }}"><br>
+                        </div>
+                        <button type="button" class="removeEduBtn"
+                            onclick="removeSection(this, 'education-entry', 'educationCount')">Remove</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button id="addEducationBtn" type="button">Add Education</button>
+                <input type="hidden" id="educationCount" name="educationCount" value="{{ cv.educations|length }}">
+
+                <h2>Certifications and Awards</h2>
+                <div id="certificatesContainer">
+                    {% for cert in cv.certificates %}
+                    <div class="certificate-entry">
+                        <label for="certificateName{{ loop.index }}">Certificate Name:</label>
+                        <input type="text" id="certificateName{{ loop.index }}" name="certificateName{{ loop.index }}"
+                            value="{{ cert.certificate_name }}"><br>
+
+                        <label for="issuingOrg{{ loop.index }}">Issuing Organization:</label>
+                        <input type="text" id="issuingOrg{{ loop.index }}" name="issuingOrg{{ loop.index }}"
+                            value="{{ cert.issuing_organization }}"><br>
+                        <div class="date-inputs">
+                            <label for="issueMonth{{ loop.index }}">Issue Month:</label>
+                            <input type="text" id="issueMonth{{ loop.index }}" name="issueMonth{{ loop.index }}"
+                                value="{{ cert.issue_month }}"><br>
+
+                            <label for="issueYear{{ loop.index }}">Issue Year:</label>
+                            <input type="text" id="issueYear{{ loop.index }}" name="issueYear{{ loop.index }}"
+                                value="{{ cert.issue_year }}"><br>
+                        </div>
+                        <button type="button" class="removeCertBtn"
+                            onclick="removeSection(this, 'certificate-entry', 'certificateCount')">Remove</button>
+                    </div>
+                    {% endfor %}
+                    <button type="button" id="addCertificate">+ Add Certificate</button>
+                    <input type="hidden" id="certificateCount" name="certificateCount"
+                        value="{{ cv.certificates|length }}">
+
+                </div>
+
+
+                <div id="projectsSection">
+                    <h2>Projects</h2>
+                    <div id="projectsContainer">
+                        {% for project in cv.projects %}
+                        <div class="project-entry">
+                            <label for="projectTitle{{ loop.index }}">Project Title:</label>
+                            <input type="text" id="projectTitle{{ loop.index }}" name="projectTitle{{ loop.index }}"
+                                value="{{ project.project_title }}"><br>
+
+                            <label for="projectDescription{{ loop.index }}">Description:</label>
+                            <textarea id="projectDescription{{ loop.index }}"
+                                name="projectDescription{{ loop.index }}">{{ project.description }}</textarea><br>
+
+                            <button type="button" class="removeProjBtn"
+                                onclick="removeSection(this, 'project-entry', 'projectCount')">Remove</button>
+                        </div>
+                        {% endfor %}
+                        <button type="button" id="addProject">+ Add Project</button>
+                        <input type="hidden" id="projectCount" name="projectCount" value="{{ cv.projects|length }}">
+                    </div>
+                </div>
+
+                <div id="referenceSection">
+                    <h2>References</h2>
+                    <div id="referenceContainer">
+                        {% for ref in cv.references %}
+                        <div class="reference-entry">
+                            <label for="referenceName{{ loop.index }}">Reference Name:</label>
+                            <input type="text" id="referenceName{{ loop.index }}" name="referenceName{{ loop.index }}"
+                                value="{{ ref.reference_name }}"><br>
+
+                            <label for="referenceTitle{{ loop.index }}">Reference Title:</label>
+                            <input type="text" id="referenceTitle{{ loop.index }}" name="referenceTitle{{ loop.index }}"
+                                value="{{ ref.reference_title }}"><br>
+
+                            <label for="referenceCompany{{ loop.index }}">Company:</label>
+                            <input type="text" id="referenceCompany{{ loop.index }}"
+                                name="referenceCompany{{ loop.index }}" value="{{ ref.reference_company }}"><br>
+
+                            <label for="referenceContact{{ loop.index }}">Contact Information:</label>
+                            <input type="text" id="referenceContact{{ loop.index }}"
+                                name="referenceContact{{ loop.index }}" value="{{ ref.contact_information }}"><br>
+
+                            <button type="button" class="removeRefBtn"
+                                onclick="removeSection(this, 'reference-entry', 'referenceCount')">Remove</button>
+                        </div>
+                        {% endfor %}
+                        <button type="button" id="addReference">+ Add Reference</button>
+                        <input type="hidden" id="referenceCount" name="referenceCount"
+                            value="{{ cv.references|length }}">
+                    </div>
+                </div>
+
+
+                <h2>Skills</h2>
+                <textarea id="skills" name="skills" rows="3"
+                    placeholder="List the skills relevant to the job...">{{ cv.skills }}</textarea><br>
+
+                <h2>Professional Affiliations</h2>
+                <input type="text" id="affiliation" name="affiliation"
+                    placeholder="Organization Name – Position (Dates)" value="{{ cv.professional_affiliations }}"><br>
+
+                <h2>Languages</h2>
+                <input type="text" id="language" name="language" placeholder="Language – Proficiency Level"
+                    value="{{ cv.languages }}"><br>
+
+                <h2>Interests</h2>
+                <textarea id="interests" name="interests" rows="2"
+                    placeholder="A brief list of personal interests...">{{ cv.interests }}</textarea><br>
+
+
+
+                <button type="submit" id="submit">Submit Changes</button>
+            </form>
+        </div>
+    </div>
+</body>

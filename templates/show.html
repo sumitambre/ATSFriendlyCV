@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Details</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            padding: 0;
+            font-size: 16px;
+            color: #444;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #333;
+        }
+
+        header p {
+            color: #666;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section:last-child {
+            margin-bottom: none;
+        }
+
+        h2 {
+            border-bottom: 2px solid #eee;
+            color: #666;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            margin-top: 10px;
+            color: #333;
+        }
+
+        p,
+        ul {
+            line-height: 1.6;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #5cb85c;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        button:hover {
+            background-color: #449d44;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Hi {{ cv.full_name }},<br>Please check your CV Details</h1>
+
+            <section>
+                <h2>Contact Information</h2>
+                <p><strong>Full Name:</strong> {{ cv.full_name }}</p>
+                <p><strong>Phone Number:</strong> {{ cv.phone_number }}</p>
+                <p><strong>Email Address:</strong> {{ cv.email }}</p>
+                <p><strong>LinkedIn Profile:</strong> <a href="{{ cv.linkedin }}">{{ cv.linkedin }}</a></p>
+                <p><strong>Address:</strong> {{ cv.address }}</p>
+            </section>
+
+            <section>
+                <h2>Professional Summary</h2>
+                <p>{{ cv.professional_summary }}</p>
+            </section>
+
+            <section>
+                <h2>Work Experience</h2>
+                {% for exp in cv.work_experiences %}
+                <div>
+                    <h3>{{ exp.company_name }} | {{ exp.city }}</h3>
+                    <p><strong>Role:</strong> {{ exp.position }}</p>
+                    <p><strong>Description:</strong> {{ exp.description }}</p>
+                    <p><strong>Period:</strong> {{ exp.start_month }} {{ exp.start_year }} - {{ exp.end_month }} {{
+                        exp.end_year }} {% if exp.currentWorking=="working" %}(Current){% endif %}</p>
+                </div>
+                {% endfor %}
+            </section>
+
+            <section>
+                <h2>Education</h2>
+                {% for edu in cv.educations %}
+                <div>
+                    <h3>{{ edu.institution_name }} | {{ edu.city }}</h3>
+                    <p><strong>Degree:</strong> {{ edu.degree }}</p>
+                    <p><strong>Period:</strong> {{ edu.start_month }} {{ edu.start_year }} - {{ edu.end_month }} {{
+                        edu.end_year }}</p>
+                </div>
+                {% endfor %}
+            </section>
+
+            <section>
+                <h2>Certifications and Awards</h2>
+                {% for cert in cv.certificates %}
+                <div>
+                    <p><strong>Certificate Name:</strong> {{ cert.certificate_name }}</p>
+                    <p><strong>Issuing Organization:</strong> {{ cert.issuing_organization }}</p>
+                    <p><strong>Issued:</strong> {{ cert.issue_month }} {{ cert.issue_year }}</p>
+                </div>
+                {% endfor %}
+            </section>
+
+            <section>
+                <h2>Projects</h2>
+                {% for project in cv.projects %}
+                <div>
+                    <p><strong>Project Title:</strong> {{ project.project_title }}</p>
+                    <p><strong>Description:</strong> {{ project.description }}</p>
+                </div>
+                {% endfor %}
+            </section>
+
+            <section>
+                <h2>References</h2>
+                {% for ref in cv.references %}
+                <div>
+                    <p><strong>Reference Name:</strong> {{ ref.reference_name }}</p>
+                    <p><strong>Title:</strong> {{ ref.reference_title }}</p>
+                    <p><strong>Company:</strong> {{ ref.reference_company }}</p>
+                    <p><strong>Contact Information:</strong> {{ ref.contact_information }}</p>
+                </div>
+                {% endfor %}
+            </section>
+
+            <section>
+                <h2>Skills</h2>
+                <p>{{ cv.skills }}</p>
+            </section>
+
+            <section>
+                <h2>Professional Affiliations</h2>
+                <p>{{ cv.professional_affiliations }}</p>
+            </section>
+
+            <section>
+                <h2>Languages</h2>
+                <p>{{ cv.languages }}</p>
+            </section>
+
+            <section>
+                <h2>Interests</h2>
+                <p>{{ cv.interests }}</p>
+            </section>
+            <div style="text-align:center; margin-top: 20px;">
+                <button onclick="location.href='/update/{{ cv.id }}'" type="button">Edit Your Details CV</button>
+                <button onclick="location.href='/job-description/{{ cv.id }}'" type="button">Generate ATS-Friendly
+                    CV</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
