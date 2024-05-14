@@ -572,7 +572,7 @@ def get_cv_AIdata(cv_id):
         # Start building the JSON structure
         job_details = {
             "jobTitle": user_cv.job_details.job_title,
-            "job_description": user_cv.job_details.job_description
+            "job_description": user_cv.job_details.job_description.replace(" ", "").replace("\r", "").replace("\n", "")
         }
 
         cv_data = {
@@ -586,7 +586,7 @@ def get_cv_AIdata(cv_id):
         for experience in user_cv.work_experiences:
             work_experience_data = {
                 "position": experience.position,
-                "description": experience.description,
+                "description": experience.description.replace(" ", "").replace("\r", "").replace("\n", "")
             }
             cv_data["workExperiences"].append(work_experience_data)
 
@@ -683,8 +683,7 @@ def get_cv_AIdata(cv_id):
             "references": []
         }
 
-        work_experiences_json = json.loads(response_text)["workExperiences"]
-
+        work_experiences_json = json.loads(response_text).get("workExperiences", [])
         # Adding each work experience to the cv_data structure
         for idx, experience in enumerate(user_cv.work_experiences):
             if idx < len(work_experiences_json):
@@ -705,7 +704,7 @@ def get_cv_AIdata(cv_id):
                     "startYear": experience.start_year,
                     "endMonth": experience.end_month,
                     "endYear": experience.end_year,
-                    "current_working": experience.currentWorking
+                    "current_working": experience.current_working
                 }
                 cv_data_constant["workExperiences"].append(work_experience_data)
             else:
@@ -736,7 +735,7 @@ def get_cv_AIdata(cv_id):
 
         # Adding each project to the cv_data structure
 
-        project_json = json.loads(response_text)["projects"]
+        project_json = json.loads(response_text).get("projects", [])
         if project_json:
             for idx, project in enumerate(user_cv.project_json):
                 if idx < len(project_json):
@@ -763,7 +762,3 @@ def get_cv_AIdata(cv_id):
     else:
         print("Response not in expected format")
         return "Response not in expected format", 400
-
-# //Remove this while deploying
-if __name__ == '__main__':
-    app.run(debug=True)
