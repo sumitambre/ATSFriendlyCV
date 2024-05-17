@@ -7,15 +7,17 @@ from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import InputRequired, Length, ValidationError, Email
 import json
 import os
+import re
 from dotenv import load_dotenv
-from openai import OpenAI
+# from openai import OpenAI
+import google.generativeai as genai
 
 app = Flask(__name__)
 load_dotenv()
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.urandom(24)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
@@ -140,14 +142,18 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Login')
 
 
-
-
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        user = User(email=form.email.data)
+        email = form.email.data.lower()  # Convert email to lowercase
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash('Email already registered.')
+            return redirect(url_for('register'))
+
+        # If the email is not registered, proceed to create a new user
+        user = User(email=email)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -159,16 +165,15 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
-    email = form.email.data
     if form.validate_on_submit():
         # Fetching the user by email instead of username
-        user = User.query.filter_by(email=form.email.data).first()
+        user = User.query.filter_by(email=form.email.data.lower()).first()
         if user and user.check_password(form.password.data):
             login_user(user)
             # Check if the user has a CV created
             user_cv = UserCV.query.filter_by(user_id=user.id).first()
             if user_cv is not None:
-                cv_id = user_cv.user_id
+                cv_id = user_cv.id
             else:
                 cv_id = None
             # Determine redirect based on whether a CV exists
@@ -191,7 +196,6 @@ with app.app_context():
     db.create_all()
 
 
-
 @app.route('/', methods=['GET', 'POST'])
 def index():
     return redirect("/login")
@@ -202,6 +206,7 @@ def index():
 def userprofile():
     # Check if the user already has a CV
     existing_cv = UserCV.query.filter_by(user_id=current_user.id).first()
+    user_cv_id = current_user.id
     if existing_cv:
         # If a CV exists, redirect to the show or edit page
         return redirect(url_for('show', cv_id=existing_cv.id))
@@ -209,7 +214,7 @@ def userprofile():
     if request.method == 'POST':
         # Process form data and create new CV
         new_cv = UserCV(
-            user_id=current_user.id,
+            user_id=user_cv_id,
             full_name=request.form['fullName'],
             phone_number=request.form['phoneNumber'],
             email=request.form['email'],
@@ -376,7 +381,7 @@ def update(cv_id):
     cv = UserCV.query.get_or_404(cv_id)  # Fetch the CV or return 404 if not found
     if cv.user_id != current_user.id:
         flash('Unauthorized attempt to access CV.', 'danger')
-        return redirect(url_for('userprofile'))
+        return redirect(url_for('login'))
 
     if request.method == 'POST':
         # Update the main CV details
@@ -408,6 +413,8 @@ def update(cv_id):
                 else:
                     end_month = request.form.get(f'endMonth{i}', None)
                     end_year = request.form.get(f'endYear{i}', None)
+
+                print(current_working)
                 new_experience = WorkExperience(
                     cv_id=cv_id,
                     company_name=company_name,
@@ -505,7 +512,6 @@ def update(cv_id):
         # Commit the session only after adding all the new educations
         db.session.commit()
 
-
         # Update References
         reference_count = int(request.form.get('referenceCount', 0))
         Reference.query.filter_by(cv_id=cv_id).delete()
@@ -545,11 +551,11 @@ def jd(cv_id):
     if request.method == 'POST':
         # Update the main CV details
         JobDetails.query.filter_by(cv_id=cv_id).delete()  # Optionally clear existing and add fresh to avoid orphans
-        job_title = request.form['jobTitle']
-        job_description = request.form['jobDescription']
+        job_title = request.form.get('jobTitle', None)
+        job_description = request.form.get('jobDescription', None)
 
         new_jobdetails = JobDetails(
-            cv_id=cv.user_id,
+            cv_id=cv_id,
             job_title=job_title,
             job_description=job_description
         )
@@ -562,12 +568,11 @@ def jd(cv_id):
     return render_template('jd.html', cv=cv)
 
 
-
 @app.route('/ai/data/<int:cv_id>')
 @login_required
 def get_cv_AIdata(cv_id):
     global processed_data
-    user_cv = UserCV.query.filter_by(id=cv_id).first()
+    user_cv = UserCV.query.get_or_404(cv_id)
     if user_cv:
         # Start building the JSON structure
         job_details = {
@@ -576,8 +581,8 @@ def get_cv_AIdata(cv_id):
         }
 
         cv_data = {
-            "professionalSummary": user_cv.professional_summary,
-            "skills": user_cv.skills,
+            "professionalSummary": clean_description(user_cv.professional_summary),
+            "skills": clean_description(user_cv.skills),
             "workExperiences": [],
             "projects": [],
         }
@@ -586,14 +591,14 @@ def get_cv_AIdata(cv_id):
         for experience in user_cv.work_experiences:
             work_experience_data = {
                 "position": experience.position,
-                "description": experience.description.replace(" ", "").replace("\r", "").replace("\n", "")
+                "description": clean_description(experience.description)
             }
             cv_data["workExperiences"].append(work_experience_data)
 
         # Collecting project details from the user's CV
         for project in user_cv.projects:
             project_data = {
-                "description": project.description
+                "description": clean_description(project.description)
             }
             cv_data["projects"].append(project_data)
 
@@ -602,56 +607,58 @@ def get_cv_AIdata(cv_id):
         cv_data_json = json.dumps(cv_data, indent=4)
 
         # Template for JSON output format
-        output_template = """
-        {
-    "professionalSummary": "Rewrite relevant professional summary match the job description, emphasizing relevant experience and skills.",
-    "skills": "Enumerate skills specifically relevant to the job description, ensuring they reflect the candidate's true abilities.",
-    "workExperiences": [
-        {
-            "description": "Please reformat the work experience listed in each entry to better match the job description. Ensure each revised entry is concise, with 100-150 words, structured into 4-6 bullet points. Start each bullet with an '*'. Elaborate on the details and try to quantify the importance of each achievement, arranging the points in ascending order of significance."
-        },repeat same as above for total number of description provided in user CV Data.
+        output_template = json.dumps({
+            "professionalSummary": "Rewrite relevant professional summary in simple language and match the job description, emphasizing relevant experience and skills.",
+            "skills": "Enumerate skills specifically relevant to the job description, ensuring they reflect the candidate's true abilities.",
+            "workExperiences": [{
+                "description": "Please reformat the work experience listed in each entry to better match the job description. Ensure each revised entry is concise, with 100-150 words, structured into 4-6 bullet points. Start each bullet with an '*'. Elaborate on the details and try to quantify the importance of each achievement, arranging the points in ascending order of significance."
+            }],
+            "projects": [{
+                "description": "Detail how the project aligns with the job requirements, rewritten to be 30-40 words and formatted in 3-5 bullet points."
+            }]
+        })
 
-    "projects": [
-        {
-            "description": "Detail how the project aligns with the job requirements, rewritten to be between 100-150 words and formatted in 5-6 bullet points."
-        }
-        // This structure should be repeated for each relevant projects. Only include experiences that directly align with the job requirements.
-
-    ]
-}
-        """
-
+        # Prepare the prompt
         prompt = f"""
-        You are expert and smart ATS CV writer you follow each and every instruction. CV data is in JSON format, showing user's work experiences, skills, and projects:{cv_data_json}
+            You are an expert and smart ATS CV writer. You follow each instruction. CV data is in JSON format, showing user's work experiences, skills, and projects: {cv_data_json}
 
-        Please read job description user applying for :{job_details_json}
+            Please read job description user is applying for: {job_details_json}
 
-        The desired output format is as follows:{output_template}
-        
-        Ensure the information remains genuine and reflects the user's capability do not add false skills and any false data."""
+            The desired output format is as follows Content-Type: application/json: {output_template}
 
-        print(f"Prompt: {prompt}")
-
-        # Gemini code
-        # response = model.generate_content(prompt)
-        # print(f"Response : {response.text}")
+            Ensure the information remains genuine and reflects the user's capability. Do not add false skills and any false data and everything should be in valid JSON format with proper enclosed in double quotes.
+            """
 
         # Open Api
+        # OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+        # client = OpenAI(api_key=OPENAI_API_KEY)
+        # response = client.chat.completions.create(model="gpt-3.5-turbo-0125",
+        #                                           response_format={"type": "json_object"},
+        #                                           messages=[{"role": "user", "content": prompt}])
+        # print(response)
+        # response_text = response.choices[
+        #     0].message.content  # Assuming 'response' is the response object from your API call
 
-        OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-        client = OpenAI(api_key=OPENAI_API_KEY)
-
-        response = client.chat.completions.create(model="gpt-3.5-turbo",
-                                                  response_format={"type": "json_object"},
-                                                  messages=[{"role": "user", "content": prompt}])
-        print(response)
-        response_text = response.choices[
-            0].message.content  # Assuming 'response' is the response object from your API call
+        # Gemini code
+        GEM_API_KEY = os.getenv('GEMINI_API_KEY')
+        print(GEM_API_KEY)
+        genai.configure(api_key=GEM_API_KEY)
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        response = model.generate_content(prompt)
+        response_text = response.text
+        print(f"Response : {response.text}")
 
         if response_text.startswith("```json"):
-            # Strip the backticks and the word 'json' if it's there
+            # Remove the opening backticks and the word 'json' if it's there
             response_text = response_text.replace("```json", "", 1)
-            response_text = response_text.rstrip("`")  # This removes trailing backticks
+
+            # Strip away any whitespace that might exist after removing the opening backticks
+            response_text = response_text.strip()
+
+            # Now remove the final three backticks at the end of the string
+            if response_text.endswith("```"):
+                response_text = response_text[:-3].strip()  # This removes the last three backticks and any trailing whitespace
+
             print(f"final: {response_text}")
         try:
             # Convert the JSON string to a Python dictionary
@@ -688,12 +695,7 @@ def get_cv_AIdata(cv_id):
         for idx, experience in enumerate(user_cv.work_experiences):
             if idx < len(work_experiences_json):
                 work_experiences = work_experiences_json[idx]["description"]
-                work_experiences_points = work_experiences.replace("\r\n", "*")
-                work_experiences_points = work_experiences_points.replace("**", "*")
-                work_experiences_points = work_experiences_points.replace(" -", "*")
-                work_experiences_points = work_experiences_points.replace("●", "*")
-                if work_experiences_points.startswith("*"):
-                    work_experiences_points = work_experiences_points.replace("*", " ", 1)
+                work_experiences_points = format_description_to_bullet_points(work_experiences)
 
                 work_experience_data = {
                     "companyName": experience.company_name,
@@ -737,11 +739,14 @@ def get_cv_AIdata(cv_id):
 
         project_json = json.loads(response_text).get("projects", [])
         if project_json:
-            for idx, project in enumerate(user_cv.project_json):
+            for idx, project in enumerate(user_cv.projects):
+                project_description = project_json[idx]["description"]
+                project_description_points = format_description_to_bullet_points(project_description)
+
                 if idx < len(project_json):
                     project_data = {
                         "projectTitle": project.project_title,
-                        "description": project_json[idx]["description"]
+                        "description": project_description_points
                     }
                     cv_data_constant["projects"].append(project_data)
 
@@ -762,3 +767,48 @@ def get_cv_AIdata(cv_id):
     else:
         print("Response not in expected format")
         return "Response not in expected format", 400
+
+
+def format_description_to_bullet_points(description):
+    """
+    Converts a block of text into a formatted bullet point list.
+    Each line break, dash, and bullet point is standardized to start with '* '.
+
+    Args:
+        description (str): The original description text from work experience.
+
+    Returns:
+        str: A formatted string where each item starts with '* '.
+    """
+    # Replace various bullet point styles with a single asterisk
+    formatted_description = description.replace("\r\n", "*")
+    formatted_description = formatted_description.replace(" -", "*")
+    formatted_description = formatted_description.replace("- ", "*")
+    formatted_description = formatted_description.replace("●", "*")
+    formatted_description = formatted_description.replace("**", "*")
+
+    # Ensure the string does not start with an asterisk to avoid an empty bullet point
+    if formatted_description.startswith("*"):
+        formatted_description = " " + formatted_description[1:]
+
+    return formatted_description
+
+
+def clean_description(description):
+    """
+    Cleans the description by removing unwanted spaces, carriage returns, and newlines.
+
+    Args:
+        description (str): The original description text from work experience.
+
+    Returns:
+        str: The cleaned description.
+    """
+    # Replace Unicode bullet points with a new line and asterisk, or another preferred format
+    description = re.sub(r'\u2022+', '*', description)
+
+    # Replace sequences of whitespace (including spaces, newlines, tabs, etc.) with a single space
+    return re.sub(r'[\s]+', ' ', description).strip()
+
+if __name__ == '__main__':
+    app.run(debug=True)
