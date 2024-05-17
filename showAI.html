@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{{ cv_data_constant.fullName }}'s Resume</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Segoe+UI" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+            color: #444;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #333;
+        }
+
+        header p {
+            color: #666;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            border-bottom: 2px solid #eee;
+            color: #666;
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        ul,
+        p {
+            line-height: 1.6;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+
+        .job-entry {
+            page-break-inside: avoid;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+</head>
+
+<body>
+    <button id="download">Download Resume as PDF</button>
+    <div class="container" id="container">
+        <header>
+            <h1>{{ cv_data_constant.fullName }}</h1>
+            <p>Email: <a href="mailto:{{ cv_data_constant.email }}">{{ cv_data_constant.email }}</a> | Phone: {{
+                cv_data_constant.phoneNumber }} | LinkedIn: <a href="{{ cv_data_constant.linkedin }}" target="_blank">{{
+                    cv_data_constant.linkedin }}</a></p>
+        </header>
+        {% if cv_data_constant.professionalSummary %}
+        <div class="section">
+            <h2>Professional Summary</h2>
+            <p>{{ cv_data_constant.professionalSummary }}</p>
+        </div>
+        {% endif %}
+        {% if cv_data_constant.skills %}
+        <div class="section">
+            <h2>Skills</h2>
+            <ul>
+                {{ cv_data_constant.skills }}
+            </ul>
+        </div>
+        {% endif %}
+        {% if cv_data_constant.workExperiences %}
+            <h2>Work Experience</h2>
+            {% for experience in cv_data_constant.workExperiences %}
+            <div class="job-entry">
+                <h3>{{ experience.companyName }} | {{ experience.position }} | {{ experience.city }}</h3>
+                <p>Period: {{ experience.startMonth }}/{{ experience.startYear }} to {% if experience.currentWorking ==
+                    "working" %}Present{% else %}{{ experience.endMonth }}/{{ experience.endYear }}{% endif %}</p>
+                <ul>
+                    {% for line in experience.description.split('*') if line %}
+                    <div class="section">
+                        <li>{{ line }}</li>
+                    </div>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if cv_data_constant.educations|length > 0 %}
+        <div class="section">
+            <h2>Education</h2>
+            {% for education in cv_data_constant.educations %}
+            <div>
+                <h3>{{ education.degree }} - {{ education.fieldOfStudy }}</h3>
+                <p>{{ education.institutionName }}, {{ education.city }}: {{ education.startMonth }}/{{
+                    education.startYear }} - {{ education.endMonth }}/{{ education.endYear if education.endYear else
+                    'Present' }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if cv_data_constant.certificates|length > 0 %}
+        <div class="section">
+            <h2>Certificates</h2>
+            {% for certificate in cv_data_constant.certificates %}
+            <div>
+                <h3>{{ certificate.certificateName }}</h3>
+                <p>Issued by: {{ certificate.issuingOrganization }}, {{ certificate.issueMonth }}/{{
+                    certificate.issueYear }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if cv_data_constant.projects|length > 0 %}
+            <h2>Projects</h2>
+            {% for project in cv_data_constant.projects %}
+            <div>
+                <h3>{{ project.projectTitle }}</h3>
+                <ul>
+                    {% for line in project.description.split('*') if line %}
+                    <div class="section">
+                        <li>{{ line }}</li>
+                    </div>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if cv_data_constant.references|length > 0 %}
+        <div class="section">
+            <h2>References</h2>
+            {% for reference in cv_data_constant.references %}
+            <div>
+                <h3>{{ reference.referenceName }} - {{ reference.referenceTitle }}</h3>
+                <p>{{ reference.referenceCompany }}, Contact: {{ reference.contactInformation }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+
+        <script>
+            window.onload = function () {
+                document.getElementById("download").addEventListener("click", () => {
+                    const content = document.getElementById("container");
+                    var options = {
+                        margin: [0.2, 0.5, 0.5, 0.5], // Top, Left, Bottom, Right in inches
+                        filename: '{{ cv_data_constant.fullName }} Resume.pdf',
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 1 }, // Higher scale gives better resolution
+                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    };
+                    html2pdf().from(content).set(options).save();
+                });
+            };
+        </script>
+</body>
+
+</html>
