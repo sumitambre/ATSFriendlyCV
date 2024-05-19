@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Setup Work Experience Section
     setupSection('addWorkExperienceBtn', 'workExperienceContainer', 10, `
     <label for="companyName{{count}}">Company Name:</label>
-    <input type="text" id="companyName{{count}}" name="companyName{{count}}"><br>
+    <input type="text" id="companyName{{count}}" name="companyName{{count}}" required><br>
     <label for="city{{count}}">City and Country:</label>
     <input type="text" id="city{{count}}" name="city{{count}}"><br>
     <label for="role{{count}}">Role:</label>
@@ -66,9 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Setup Education Section
     setupSection('addEducation', 'educationContainer', 10, `
     <label for="institutionName{{count}}">Institution Name:</label>
-    <input type="text" id="institutionName{{count}}" name="institutionName{{count}}"><br>
-    <label for="city{{count}}">City and Country:</label>
-    <input type="text" id="city{{count}}" name="city{{count}}"><br>
+    <input type="text" id="institutionName{{count}}" name="institutionName{{count}}" required><br>
+    <label for="cityEdu{{count}}">City and Country:</label>
+    <input type="text" id="cityEdu{{count}}" name="cityEdu{{count}}"><br>
     <label for="degree{{count}}">Degree:</label>
     <input type="text" id="degree{{count}}" name="degree{{count}}"><br>
     <div class="date-inputs">
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Setup Certifications and Awards Section
     setupSection('addCertificate', 'certificatesContainer', 10, `
     <label for="certificateName{{count}}">Certificate Name:</label>
-    <input type="text" id="certificateName{{count}}" name="certificateName{{count}}"><br>
+    <input type="text" id="certificateName{{count}}" name="certificateName{{count}}" required><br>
     <label for="issuingOrg{{count}}">Issuing Organization:</label>
     <input type="text" id="issuingOrg{{count}}" name="issuingOrg{{count}}"><br>
     <div class="date-inputs">
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Setup Projects Section
     setupSection('addProject', 'projectsContainer', 10, `
         <label for="projectTitle{{count}}">Project Title:</label>
-        <input type="text" id="projectTitle{{count}}" name="projectTitle{{count}}"><br>
+        <input type="text" id="projectTitle{{count}}" name="projectTitle{{count}}" required><br>
         <label for="projectDescription{{count}}">Project Description:</label>
         <textarea id="projectDescription{{count}}" name="projectDescription{{count}}"></textarea>
         `, 'projectCount');
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Setup Reference Section
     setupSection('addReference', 'referenceContainer', 10, `
     <label for="referenceName{{count}}">Reference Name:</label>
-    <input type="text" id="referenceName{{count}}" name="referenceName{{count}}"><br>
+    <input type="text" id="referenceName{{count}}" name="referenceName{{count}}" required><br>
     <label for="referenceTitle{{count}}">Contact Title:</label>
     <input type="text" id="referenceTitle{{count}}" name="referenceTitle{{count}}"><br>
     <label for="referenceCompany{{count}}">Reference Company:</label>

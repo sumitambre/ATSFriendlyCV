@@ -444,7 +444,9 @@ def update(cv_id):
         i = 1
         while i <= education_count and i <= 15:
             institution_name = request.form.get(f'institutionName{i}')
-
+            print(institution_name)
+            city = request.form.get(f'cityEdu{i}'),
+            print(city)
             if institution_name:
                 new_education = Education(
                     cv_id=cv_id,

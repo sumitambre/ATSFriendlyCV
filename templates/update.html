@@ -13,10 +13,10 @@
     <div class="container">
         <div class="form-container">
             <form method="POST">
-                <h1>CV Details</h1>
-                <h2>Contact Information</h2>
+                <h1>{{ cv.full_name }}, CV Details</h1>
+                <h2>Update your information</h2>
                 <label for="fullName">Full Name:</label>
-                <input type="text" id="fullName" name="fullName" placeholder="Full Name" value="{{ cv.full_name }}"><br>
+                <input type="text" id="fullName" name="fullName" placeholder="Full Name" value="{{ cv.full_name }}" required><br>
 
                 <label for="phoneNumber">Phone Number:</label>
                 <input type="text" id="phoneNumber" name="phoneNumber" value="{{ cv.phone_number }}"><br>
@@ -74,18 +74,18 @@
                                     value="{{ exp.end_year }}"><br>
                             </div>
                             <input type="checkbox" id="current{{ loop.index }}" name="current{{ loop.index }}"
-                                value="working" {% if exp.currentWorking=="working" %}checked{% endif %}>
-                            <label for="current{{ loop.index }}">I am working here currently.</label><br>
+                                value="working" {% if exp.current_working=="working" %}checked{% endif %}>
+                            <label for="current{{ loop.index }}">I am working here currently.</label>
 
                             <button type="button" class="removeBtn"
                                 onclick="removeSection(this, 'work-experience', 'experienceCount')">Remove</button>
-                        </div>
+                        </div><br>
                         {% endfor %}
                     </div>
                     <button id="addWorkExperienceBtn" type="button">Add Work Experience</button>
                     <input type="hidden" id="experienceCount" name="experienceCount"
                         value="{{ cv.work_experiences|length }}">
-                </div>
+                </div><br>
 
                 <h2>Education</h2>
                 <div id="educationContainer">
@@ -95,8 +95,8 @@
                         <input type="text" id="institutionName{{ loop.index }}" name="institutionName{{ loop.index }}"
                             value="{{ edu.institution_name }}"><br>
 
-                        <label for="city{{ loop.index }}">City and Country:</label>
-                        <input type="text" id="cityEdu{{ loop.index }}" name="city{{ loop.index }}"
+                        <label for="cityEdu{{ loop.index }}">City and Country:</label>
+                        <input type="text" id="cityEdu{{ loop.index }}" name="cityEdu{{ loop.index }}"
                             value="{{ edu.city }}"><br>
 
 
@@ -128,7 +128,7 @@
                 </div>
                 <button id="addEducationBtn" type="button">Add Education</button>
                 <input type="hidden" id="educationCount" name="educationCount" value="{{ cv.educations|length }}">
-
+                
                 <h2>Certifications and Awards</h2>
                 <div id="certificatesContainer">
                     {% for cert in cv.certificates %}

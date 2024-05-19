@@ -5,85 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CV Details</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 20px;
-            padding: 0;
-            font-size: 16px;
-            color: #444;
-            background-color: #f9f9f9;
-        }
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
 
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        header h1 {
-            margin: 0;
-            color: #333;
-        }
-
-        header p {
-            color: #666;
-        }
-
-        .section {
-            margin-bottom: 30px;
-        }
-
-        .section:last-child {
-            margin-bottom: none;
-        }
-
-        h2 {
-            border-bottom: 2px solid #eee;
-            color: #666;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        h3 {
-            margin-top: 10px;
-            color: #333;
-        }
-
-        p,
-        ul {
-            line-height: 1.6;
-        }
-
-        ul {
-            padding-left: 20px;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        button {
-            background-color: #5cb85c;
-            color: #fff;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin: 10px;
-        }
-
-        button:hover {
-            background-color: #449d44;
-        }
-    </style>
 </head>
 
 <body>
@@ -112,9 +35,10 @@
                     <h3>{{ exp.company_name }} | {{ exp.city }}</h3>
                     <p><strong>Role:</strong> {{ exp.position }}</p>
                     <p><strong>Description:</strong> {{ exp.description }}</p>
-                    <p><strong>Period:</strong> {{ exp.start_month }} {{ exp.start_year }} - {{ exp.end_month }} {{
+                    <p><strong>Period:</strong> {{ exp.start_month }}/{{ exp.start_year }} - {{ exp.end_month }}/{{
                         exp.end_year }} {% if exp.currentWorking=="working" %}(Current){% endif %}</p>
                 </div>
+                <br>
                 {% endfor %}
             </section>
 
@@ -128,6 +52,7 @@
                         edu.end_year }}</p>
                 </div>
                 {% endfor %}
+                <br>
             </section>
 
             <section>
@@ -139,6 +64,7 @@
                     <p><strong>Issued:</strong> {{ cert.issue_month }} {{ cert.issue_year }}</p>
                 </div>
                 {% endfor %}
+                <br>
             </section>
 
             <section>
@@ -149,6 +75,7 @@
                     <p><strong>Description:</strong> {{ project.description }}</p>
                 </div>
                 {% endfor %}
+                <br>
             </section>
 
             <section>
@@ -161,26 +88,31 @@
                     <p><strong>Contact Information:</strong> {{ ref.contact_information }}</p>
                 </div>
                 {% endfor %}
+                <br>
             </section>
 
             <section>
                 <h2>Skills</h2>
                 <p>{{ cv.skills }}</p>
+                <br>
             </section>
 
             <section>
                 <h2>Professional Affiliations</h2>
                 <p>{{ cv.professional_affiliations }}</p>
+                <br>
             </section>
 
             <section>
                 <h2>Languages</h2>
                 <p>{{ cv.languages }}</p>
+                <br>
             </section>
 
             <section>
                 <h2>Interests</h2>
                 <p>{{ cv.interests }}</p>
+                <br>
             </section>
             <div style="text-align:center; margin-top: 20px;">
                 <button onclick="location.href='/update/{{ cv.id }}'" type="button">Edit Your Details CV</button>
