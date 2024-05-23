@@ -1,0 +1,4 @@
+{
+    "workbench.editor.enablePreviewFromQuickOpen": true,
+    "livePreview.defaultPreviewPath": "/templates/show.html"
+}

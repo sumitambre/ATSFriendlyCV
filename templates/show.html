@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CV Details</title>
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/style.css')}}">
-
 </head>
 
 <body>
@@ -31,70 +30,64 @@
             <section>
                 <h2>Work Experience</h2>
                 {% for exp in cv.work_experiences %}
-                <div>
+                <div class="sub_section">
                     <h3>{{ exp.company_name }} | {{ exp.city }}</h3>
                     <p><strong>Role:</strong> {{ exp.position }}</p>
                     <p><strong>Description:</strong> {{ exp.description }}</p>
                     <p><strong>Period:</strong> {{ exp.start_month }}/{{ exp.start_year }} - {{ exp.end_month }}/{{
                         exp.end_year }} {% if exp.currentWorking=="working" %}(Current){% endif %}</p>
                 </div>
-                <br>
                 {% endfor %}
             </section>
 
             <section>
                 <h2>Education</h2>
                 {% for edu in cv.educations %}
-                <div>
+                <div class="sub_section">
                     <h3>{{ edu.institution_name }} | {{ edu.city }}</h3>
                     <p><strong>Degree:</strong> {{ edu.degree }}</p>
                     <p><strong>Period:</strong> {{ edu.start_month }} {{ edu.start_year }} - {{ edu.end_month }} {{
                         edu.end_year }}</p>
                 </div>
                 {% endfor %}
-                <br>
             </section>
 
             <section>
                 <h2>Certifications and Awards</h2>
                 {% for cert in cv.certificates %}
-                <div>
+                <div class="sub_section">
                     <p><strong>Certificate Name:</strong> {{ cert.certificate_name }}</p>
                     <p><strong>Issuing Organization:</strong> {{ cert.issuing_organization }}</p>
                     <p><strong>Issued:</strong> {{ cert.issue_month }} {{ cert.issue_year }}</p>
                 </div>
                 {% endfor %}
-                <br>
             </section>
 
             <section>
                 <h2>Projects</h2>
                 {% for project in cv.projects %}
-                <div>
+                <div class="sub_section">
                     <p><strong>Project Title:</strong> {{ project.project_title }}</p>
                     <p><strong>Description:</strong> {{ project.description }}</p>
                 </div>
                 {% endfor %}
-                <br>
             </section>
 
             <section>
                 <h2>References</h2>
                 {% for ref in cv.references %}
-                <div>
+                <div class="sub_section">
                     <p><strong>Reference Name:</strong> {{ ref.reference_name }}</p>
                     <p><strong>Title:</strong> {{ ref.reference_title }}</p>
                     <p><strong>Company:</strong> {{ ref.reference_company }}</p>
                     <p><strong>Contact Information:</strong> {{ ref.contact_information }}</p>
                 </div>
                 {% endfor %}
-                <br>
             </section>
 
             <section>
                 <h2>Skills</h2>
                 <p>{{ cv.skills }}</p>
-                <br>
             </section>
 
             <section>
