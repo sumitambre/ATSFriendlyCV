@@ -11,11 +11,12 @@
 </head>
 
 <body>
-    <div class="container" id="container">
+    <div class="container" id="container" contenteditable="true">
         <header>
             <h1>{{ cv_data_constant.fullName }}</h1>
-            <p>Email: <a href="mailto:{{ cv_data_constant.email }}">{{ cv_data_constant.email }}</a> | Phone: {{
-                cv_data_constant.phoneNumber }} <br> LinkedIn:
+            <p>Email: <a href="mailto:{{ cv_data_constant.email }}">{{ cv_data_constant.email }}</a> | Phone: <a
+                    href="tel">{{
+                    cv_data_constant.phoneNumber }}</a> <br> LinkedIn:
                 <a href="{{ cv_data_constant.linkedin }}" target="_blank">{{ cv_data_constant.linkedin }}</a>
             </p>
         </header>
@@ -27,7 +28,7 @@
         </div>
         <div class="section" {% if not cv_data_constant.skills %}style="display:none" {% endif %}>
             <h2>Skills</h2>
-            <ul>{{ cv_data_constant.skills }}<ul>
+            <ul>{{ cv_data_constant.skills }}</ul>
         </div>
 
         <div class="section" {% if cv_data_constant.workExperiences|length==0 %}style="display:none" {% endif %}>
@@ -37,22 +38,20 @@
 
                 <h3>{{ experience.companyName }} | {{ experience.position }} | {{ experience.city }}</h3>
                 <p>Period: {{ experience.startMonth }}/{{ experience.startYear }} to
-                    {% if experience.currentWorking == "working" %}
-                    Present
+                    {% if experience.endMonth == "Present" %}
+                    {{ experience.endMonth }}
                     {% else %}
                     {{ experience.endMonth }}/{{ experience.endYear }}
                     {% endif %}
                 </p>
                 <!-- Converting descriptions with newlines into a bulleted list -->
                 <ul>
-
                     {% set lines = experience.description.split('*') %}
                     {% for line in lines %}
                     <div class="job-entry section">
                         <li>{{ line }}</li>
                     </div>
                     {% endfor %}
-
                 </ul>
 
                 {% endfor %}
@@ -80,7 +79,16 @@
                 <h2>Projects</h2>
                 {% for project in cv_data_constant.projects %}
                 <h3>{{ project.projectTitle }}</h3>
-                <p>{{ project.description }}</p>
+                <!-- Converting descriptions with newlines into a bulleted list -->
+                <ul>
+                    {% set lines = project.description.split('*') %}
+                    {% for line in lines %}
+                    <div class="job-entry section">
+                        <li>{{ line }}</li>
+                    </div>
+                    {% endfor %}
+                </ul>
+
                 {% endfor %}
             </div>
             <div class="section" {% if cv_data_constant.references|length==0 %}style="display:none" {% endif %}>
@@ -94,7 +102,8 @@
     </div>
     <div>
         <!-- Added button for PDF Download functionality -->
-        <button type="button" id="toPDF">Download with html2pdf</button>
+        <button type="button" id="toPDF">Download CV in PDF</button>
+
     </div>
     <script>
         const pdf_btn = document.querySelector('#toPDF');
@@ -102,8 +111,7 @@
 
         const toPDF = function (container) {
             const new_window = window.open('', '_blank');
-            new_window.document.write(`
-                <html>
+            new_window.document.write(`<html>
                 <head>
                     <title>ATS Friendly CV</title>
                     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/cv.css')}}">
@@ -123,8 +131,9 @@
         };
 
         pdf_btn.onclick = () => {
-            toPDF(container);
+            toPDF(container).contenteditable = "true";
         };
+
     </script>
 </body>
 

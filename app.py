@@ -9,7 +9,6 @@ import json
 import os
 import re
 from dotenv import load_dotenv
-# from openai import OpenAI
 import google.generativeai as genai
 
 app = Flask(__name__)
@@ -613,15 +612,6 @@ def get_cv_AIdata(cv_id):
             Ensure the information remains genuine and reflects the user's capability. Do not add false skills and any false data and everything should be in valid JSON format with proper enclosed in double quotes.
             """
 
-        # Open Api
-        # OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-        # client = OpenAI(api_key=OPENAI_API_KEY)
-        # response = client.chat.completions.create(model="gpt-3.5-turbo-0125",
-        #                                           response_format={"type": "json_object"},
-        #                                           messages=[{"role": "user", "content": prompt}])
-        # print(response)
-        # response_text = response.choices[
-        #     0].message.content  # Assuming 'response' is the response object from your API call
 
         # Gemini code
         GEM_API_KEY = os.getenv('GEMINI_API_KEY')

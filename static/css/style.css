@@ -146,3 +146,7 @@ p, ul {
 .preview-container {
   border-left: 2px solid #eee;
 }
+
+a:visited {
+  color: inherit;
+}

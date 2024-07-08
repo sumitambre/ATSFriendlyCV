@@ -10,13 +10,15 @@
 </head>
 
 <body>
+    //Used for updating user details
     <div class="container">
         <div class="form-container">
             <form method="POST">
                 <h1>{{ cv.full_name }}, CV Details</h1>
                 <h2>Update your information</h2>
                 <label for="fullName">Full Name:</label>
-                <input type="text" id="fullName" name="fullName" placeholder="Full Name" value="{{ cv.full_name }}" required><br>
+                <input type="text" id="fullName" name="fullName" placeholder="Full Name" value="{{ cv.full_name }}"
+                    required><br>
 
                 <label for="phoneNumber">Phone Number:</label>
                 <input type="text" id="phoneNumber" name="phoneNumber" value="{{ cv.phone_number }}"><br>
@@ -128,7 +130,7 @@
                 </div>
                 <button id="addEducationBtn" type="button">Add Education</button>
                 <input type="hidden" id="educationCount" name="educationCount" value="{{ cv.educations|length }}">
-                
+
                 <h2>Certifications and Awards</h2>
                 <div id="certificatesContainer">
                     {% for cert in cv.certificates %}

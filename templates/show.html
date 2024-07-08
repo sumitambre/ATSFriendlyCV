@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <!-- //THIS Files show user data after logging -->
     <div class="container">
         <div class="form-container">
             <h1>Hi {{ cv.full_name }},<br>Please check your CV Details</h1>
@@ -34,8 +35,11 @@
                     <h3>{{ exp.company_name }} | {{ exp.city }}</h3>
                     <p><strong>Role:</strong> {{ exp.position }}</p>
                     <p><strong>Description:</strong> {{ exp.description }}</p>
-                    <p><strong>Period:</strong> {{ exp.start_month }}/{{ exp.start_year }} - {{ exp.end_month }}/{{
-                        exp.end_year }} {% if exp.currentWorking=="working" %}(Current){% endif %}</p>
+                    <p><strong>Period:</strong> {{ exp.start_month }}/{{ exp.start_year }} - {% if exp.end_month == "Present" %}
+                        {{ exp.end_month }}
+                        {% else %}
+                        {{ exp.end_month }}/{{ exp.end_year }}                          
+                        {% endif %}</p>
                 </div>
                 {% endfor %}
             </section>
@@ -109,8 +113,7 @@
             </section>
             <div style="text-align:center; margin-top: 20px;">
                 <button onclick="location.href='/update/{{ cv.id }}'" type="button">Edit Your Details CV</button>
-                <button onclick="location.href='/job-description/{{ cv.id }}'" type="button">Generate ATS-Friendly
-                    CV</button>
+                <button onclick="location.href='/job-description/{{ cv.id }}'" type="button">Generate Your CV</button>
             </div>
         </div>
     </div>
