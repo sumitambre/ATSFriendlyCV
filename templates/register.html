@@ -14,21 +14,32 @@
             align-items: center;
             height: 100vh;
         }
+
         .form-container {
             background: white;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
+        .header-img {
+            width: 100%;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
     </style>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/index.css')}}">
+
 </head>
 
 <body>
     <div class="form-container">
-        <h1>Register</h1>
+        <a><img src="{{url_for('static', filename='images/jobreadycv.png')}}" alt="resume" width="200px" height="90px"
+                onclick="location.href='login'"></a>
+        <h2  class="text-center">Register</h2>
         <!-- Display messages -->
         {% for message in get_flashed_messages() %}
-            <div class="alert alert-danger">{{ message }}</div>
+        <div class="alert alert-danger">{{ message }}</div>
         {% endfor %}
         <!-- Registration form -->
         <form method="POST" action="{{ url_for('register') }}">
@@ -38,7 +49,7 @@
                 {{ form.email(class="form-control") }}
                 <!-- Display errors for username -->
                 {% for error in form.email.errors %}
-                    <div class="alert alert-danger">{{ error }}</div>
+                <div class="alert alert-danger">{{ error }}</div>
                 {% endfor %}
             </div>
             <div class="form-group">
@@ -46,10 +57,10 @@
                 {{ form.password(class="form-control") }}
                 <!-- Display errors for password -->
                 {% for error in form.password.errors %}
-                    <div class="alert alert-danger">{{ error }}</div>
+                <div class="alert alert-danger">{{ error }}</div>
                 {% endfor %}
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
         </form>
 
         <div class="text-center">

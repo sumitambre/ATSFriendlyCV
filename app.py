@@ -197,7 +197,8 @@ with app.app_context():
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return redirect("/login")
+    # return redirect("/login")
+    return render_template('index.html')
 
 
 @app.route('/userprofile', methods=['GET', 'POST'])

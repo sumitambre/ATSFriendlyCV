@@ -1,0 +1,626 @@
+:root {
+    --theme: #ff6600;
+    --white: #ffffff;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
+    font-weight: 400;
+}
+
+body {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.containerHead {
+    display: flex;
+    width: 60vw;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+}
+
+.container {
+    border: var(--theme) solid 1px;
+    display: flex;
+    width: 1200px;
+    max-width: 90%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.containerHero {
+    display: flex;
+    width: 80vw;
+    max-width: 100%;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.textHero {
+    width: 30vw;
+    min-width: 300px;
+    height: auto;
+    text-align: left;
+    margin-right: 20px;
+}
+
+.header {
+    background: #fff;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo {
+    font-size: 2rem;
+    color: var(--theme);
+}
+
+.btn {
+    height: 40px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.btnRead {
+    margin: 0;
+}
+
+.btn-primary {
+    background: var(--theme);
+    color: var(--white);
+    border: var(--theme) 1px solid;
+}
+
+.btnUp {
+    background: var(--white);
+    color: #000000;
+    border: var(--theme) 1px solid;
+}
+
+.btnTry {
+    width: 250px;
+    font-size: large;
+    justify-items: center;
+    margin: 0px 10px;
+}
+
+.hero {
+    padding: 50px 0;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.hero h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.highlight {
+    color: var(--theme);
+    font-weight: bold;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.hero .btn-primary {
+    background: var(--theme);
+    color: var(--white);
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.hero-image {
+    width: 100%;
+    height: 300px;
+    background: url('hero-image.png') no-repeat center center/cover;
+    margin-top: 20px;
+}
+
+.steps {
+    background: #fff;
+    padding: 50px 0;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.space {
+    margin-right: 40px;
+}
+
+.step {
+    width: 50vw;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    color: var(--theme);
+}
+
+.textStep {
+    display: flex;
+    text-align: left;
+    align-items: center;
+}
+
+.count {
+    font-size: 40px;
+    margin: 0px 20px;
+}
+
+.descStep {
+    width: 300px;
+}
+
+.step img {
+    width: 200px;
+    height: 200px;
+    margin: 0px 20px;
+}
+
+.steps h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.cv-editor {
+    background: #f9f9f9;
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.containerCV {
+    display: flex;
+    width: 80vw;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.titleCV {
+    font-size: 30px;
+    margin: 20px;
+}
+
+.screenshot {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    box-shadow: 2px 6px 13px gray;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px;
+}
+
+.leftCV {
+    display: flex;
+    flex-direction: column;
+    align-items: last baseline;
+}
+
+.rightCV {
+    width: 100%;
+    max-width: 500px;
+}
+
+.rightCV p {
+    font-size: 20px;
+}
+
+.rightCV ul {
+    font-size: 20px;
+}
+
+.cv-editor h2 {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.cv-editor ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.cv-editor .btn-primary {
+    margin: 80px auto;
+    background: var(--theme);
+    color: var(--white);
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.cv-editor-image {
+    width: 100%;
+    height: 300px;
+    background: url('cv-editor-image.png') no-repeat center center/cover;
+    margin-top: 20px;
+}
+
+.stats {
+    display: flex;
+    justify-content: start;
+    margin-top: 20px;
+}
+
+.rightCV li {
+    margin: 10px;
+    color: var(--theme);
+}
+
+.stats p {
+    margin: 0 10px;
+    font-size: 1.1rem;
+}
+
+.bolder {
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.divider {
+    height: 80px;
+    width: 2px;
+    background-color: black;
+    margin: 0 10px;
+}
+
+.about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+}
+
+.aboutImage {
+ margin-right: 20px;
+}
+
+.aboutText {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+    justify-content: space-between;
+    text-align: justify;
+}
+
+.containerAbout {
+    width: 100%;
+    max-width: 70vw;
+    background: #f9f9f9;;
+    padding: 50px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.descAbout {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 20px;
+}
+
+.about h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+.about p {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+}
+
+.about .btn-secondary {
+    background: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.about-image {
+    width: 100%;
+    height: 300px;
+    background: url('about-image.png') no-repeat center center/cover;
+    margin-top: 20px;
+}
+
+.containerBenfits {
+    width: 80vw;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(100px, auto);
+    gap: 40px;
+}
+
+.imgbenefit {
+    padding: 20px;
+}
+
+.benefits {
+    background: #ffffff;
+    padding: 50px 0;
+    text-align: justify;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.benefits h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.benefits h3 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--theme);
+}
+
+.containerFooter {
+    display: grid;
+    grid-auto-rows: minmax(100px, auto);
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    max-width: 70vw;
+    align-items: start;
+    justify-content: space-between;
+    margin: 30px 0px;
+}
+
+.companyInfo {
+    width: 250px;
+    height: 40px;
+    align-items: start;
+    text-align: start;
+}
+
+.footerLinks {
+    display: flex;
+    flex-direction: column;
+}
+
+.socialMedia {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.benefit {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.textBenefit {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.textBenefit h3 {
+    font-size: 25px;
+    color: #424242;
+    font-weight: 800;
+}
+
+.testimonials {
+    background: #fff;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.testimonials h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.testimonial {
+    margin-bottom: 20px;
+}
+
+.testimonial p {
+    font-size: 1.1rem;
+}
+
+.testimonial .author {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+footer {
+    background: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    height: auto;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+footer p {
+    margin-bottom: 10px;
+}
+
+.footer-links {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: var(--theme);
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.contact-info {
+    margin-bottom: 10px;
+}
+
+.social-media a {
+    margin: 0 10px;
+}
+
+@media screen and (max-width: 1200px) {
+
+    .containerHero,
+    .containerCV,
+    .containerAbout,
+    .containerBenfits {
+        width: 90vw;
+        flex-direction: column;
+    }
+
+    .textHero {
+        text-align: center;
+        width: 60vw;
+    }
+
+    .textStep,
+    .step img {
+        width: 100%;
+        text-align: center;
+    }
+
+    .stats {
+        align-items: center;
+    }
+
+    .divider {
+        height: 80px;
+        width: 2px;
+        background-color: black;
+        margin: 0 10px;
+    }
+
+    .containerBenfits {
+        width: 80vw;
+        height: auto;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+        gap: 40px;
+    }
+      .descAbout {
+        flex-direction: column;
+      }
+
+      .cv-editor .btn-primary {
+        margin: 20px auto;
+    }
+
+    .containerFooter{
+        grid-auto-rows: minmax(100px, auto);
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .hero h2,
+    .steps h2,
+    .cv-editor h2,
+    .about h2,
+    .testimonials h2,
+    .benefits h2 {
+        font-size: 1.5rem;
+    }
+  
+
+    .containerHead {
+        flex-direction: column;
+    }
+
+    .hero p,
+    .about p,
+    .testimonial p {
+        font-size: 1rem;
+    }
+
+    .hero-image,
+    .about-image,
+    .cv-editor-image {
+        height: 200px;
+    }
+
+    .containerBenfits {
+        width: 80vw;
+        height: auto;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+        gap: 40px;
+    }
+
+    .step {
+        margin: 40px 0px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .hero h2,
+    .steps h2,
+    .cv-editor h2,
+    .about h2,
+    .testimonials h2,
+    .benefits h2 {
+        font-size: 1.2rem;
+    }
+
+    .hero p,
+    .about p,
+    .testimonial p {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    
+}

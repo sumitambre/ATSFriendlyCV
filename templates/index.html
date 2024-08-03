@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobReadyCV</title>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/index.css')}}">
+</head>
+
+<body>
+    <header class="header">
+        <div class="containerHead">
+            <h1 class="logo">
+                <img src="{{url_for('static', filename='images/jobreadycv.png')}}" alt="resume" width="200px"
+                        height="90px" onclick="location.href='login'">
+            </h1>
+            <nav class="nav">
+                <button class="btn btnUp" onclick="location.href='register'">Sign up</button>
+                <button class="btn btn-primary btnIn" onclick="location.href='login'">Sign in</button>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="containerHero">
+            <div class="textHero">
+                <h2>Create a <span class="highlight">resume</span> that secures your <span class="highlight">dream
+                        job</span></h2>
+                <p>Build a resume that captures the interest of recruiters and gets you hired. It's fast and easy to
+                    use.</p>
+                <button class="btn btn-primary btnTry" type="button" onclick="location.href='login'">Try for free</button>
+            </div>
+            <div class="imgHero">
+                <img src="{{url_for('static', filename='images/resume.png')}}" alt="resume" width="400px"
+                    height="400px">
+            </div>
+    </section>
+
+    <section class="steps">
+        <div class="containerSteps">
+            <h2>Build your <span class="highlight">resume</span> in 3 steps</h2>
+            <div class="step" style="justify-content: left;">
+                <div class="imgStep">
+                    <img src="{{url_for('static', filename='images/Keyword Optimization.png')}}" alt="resume"
+                        width="200px" height="200px">
+                </div>
+                <div class="textStep">
+                    <div class="count">
+                        <h3>1.</h3>
+                    </div>
+                    <div class="descStep">
+                        <h3> Fill Your Details</h3>
+                        <p>Enter your basic information and more.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="step" style="justify-content: right;">
+                <div class="imgStep">
+                    <img src="{{url_for('static', filename='images/First Impressions Matter.png')}}" alt="resume"
+                        width="400px" height="400px">
+                </div>
+                <div class="textStep">
+                    <div class="count">
+                        <h3>2.</h3>
+                    </div>
+                    <div class="descStep">
+                        <h3>Paste Job-description</h3>
+                        <p>Copy and paste the job description from the company's portal.</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="step" style="justify-content: left;">
+                <div class="imgStep">
+                    <img src="{{url_for('static', filename='images/Saves Time.png')}}" alt="resume" width="400px"
+                        height="400px">
+                </div>
+                <div class="textStep">
+                    <div class="count">
+                        <h3>3.</h3>
+                    </div>
+                    <div class="descStep">
+                        <h3>Hit 'Download'</h3>
+                        <p>Download your resume in one of the available formats.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cv-editor">
+
+        <div class="containerCV">
+
+            <div class="leftCV">
+                <div class="titleCV">
+                    <h3>Snapshot of our CV editor</h3>
+                </div>
+                <div class="screenshot"><img src="{{url_for('static', filename='images/TestResume.png')}}" alt="resume"
+                        width="400px" height="600px">
+                </div>
+            </div>
+            <div class="rightCV">
+                <p>All the flexibility & intuition you need to build a resume that stands out.</p>
+                <ul>
+                    <li><span class="highlight">Instant AI-Created Resumes: </span><br> Get a tailored resume in moments
+                        with our advanced AI..</li>
+                    <li><span class="highlight">Easy Edits:</span><br> Make quick adjustments to your CV and keep it
+                        updated.</li>
+                    <li><span class="highlight">Free Multiple Downloads: </span><br> Download your resume in different
+                        formats as many times as you need, for free.</li>
+                </ul>
+                <button class="btn btn-primary btnTry" onclick="location.href='login'">Create Resume</button>
+
+                <h3>Our Stats:</h3>
+                <div class="stats">
+                    <p><span class="bolder">200+</span></strong> <br>users</p>
+                    <div class="divider"></div>
+                    <p><span class="bolder">2 mins</span> <br>Average resume building time</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits">
+        <h2>Benefits Of Using Our Product</h2>
+        <h3>Why Choose us?</h3>
+        <div class="containerBenfits">
+            <div class="benefit">
+                <div class="imgbenefit">
+                    <img src="{{url_for('static', filename='images/First Impressions Matter.png')}}" alt="resume"
+                        width="200px" height="200px">
+                </div>
+                <div class="textBenefit">
+                    <h3> First Impressions Matter: </h3>
+                    <p>JobReadyCV ensures your CV makes a positive and professional first impression, increasing your
+                        chances of being noticed by employers.</p>
+                </div>
+            </div>
+            <div class="benefit">
+                <div class="imgbenefit">
+                    <img src="{{url_for('static', filename='images/Enhanced Visibility.png')}}" alt="resume"
+                        width="200px" height="200px">
+                </div>
+                <div class="textBenefit">
+                    <h3>Enhanced Visibility:</h3>
+                    <p>With a professional CV, you're more likely to be shortlisted for interviews, increasing your
+                        visibility in the job market.</p>
+                </div>
+            </div>
+            <div class="benefit">
+                <div class="imgbenefit">
+                    <img src="{{url_for('static', filename='images/Tailored Content with AI.png')}}" alt="resume"
+                        width="200px" height="200px">
+                </div>
+                <div class="textBenefit">
+                    <h3> Tailored Content with AI: </h3>
+                    <p>Our AI customizes your CV to match specific job descriptions, highlighting relevant skills and
+                        experiences for each application.</p>
+                </div>
+            </div>
+            <div class="benefit">
+                <div class="imgbenefit">
+                    <img src="{{url_for('static', filename='images/Keyword Optimization.png')}}" alt="resume"
+                        width="200px" height="200px">
+                </div>
+                <div class="textBenefit">
+                    <h3>Keyword Optimization:</h3>
+                    <p>JobReadyCV uses AI to optimize your CV with the right keywords, ensuring it passes through
+                        Applicant Tracking Systems (ATS) and reaches recruiters.</p>
+                </div>
+            </div>
+            <div class="benefit">
+                <div class="imgbenefit">
+                    <img src="{{url_for('static', filename='images/Highlighting Achievements.png')}}" alt="resume"
+                        width="200px" height="200px">
+                </div>
+                <div class="textBenefit">
+                    <h3> Highlighting Achievements:</h3>
+                    <p>JobReadyCV helps you articulate your accomplishments effectively, making you a more compelling
+                        candidate.</p>
+                </div>
+            </div>
+            <div class="benefit">
+                <div class="imgbenefit">
+                    <img src="{{url_for('static', filename='images/Saves Time.png')}}" alt="resume" width="200px"
+                        height="200px">
+                </div>
+                <div class="textBenefit">
+                    <h3> Saves Time</h3>
+                    <p>JobReadyCV saves you time by handling the writing and formatting, allowing you to focus on other
+                        aspects of your job search.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about">
+        <div class="containerAbout">
+            <div>
+                <h2>About JobReadyCV</h2>
+            </div>
+            <div class="descAbout">
+                <div class="aboutImage">
+                    <img src="{{url_for('static', filename='images/creative_dev.png')}}" alt="resume" width="400px"
+                        height="400px">
+                </div>
+                <div class="aboutText">
+                    <p>JobReadyCV is a product of CreativeDevs – a global innovation and digital transformation enabler.
+                        <br>Our team knows how crucial it is for job seekers to connect with recruiters. With
+                        JobReadyCV, we help job seekers build perfect and targeted job applications, ensuring they land
+                        in front of the right people.
+                    </p>
+                    <!-- <button class="btn btn-primary btnRead" onclick="location.href='login'">Read More</button> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+
+
+    <footer>
+        <div class="containerFooter">
+
+            <div class="companyInfo">
+                <h1 class="logo">JobReadyCV</h1>
+                <p>Create your resume in minutes, get your dream job in blink.</p>
+            </div>
+
+            <!-- <div class="footerLinks">
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+
+            </div> -->
+            <!-- <div class="contact-info">
+                <p>Contact Us</p>
+                <p>+234 809 464 4635</p>
+                <p>agent@gmail.com</p>
+            </div> -->
+            <!-- <div class="socialMedia">
+                <a href="#"><img src="facebook-icon.png" alt="Facebook"></a>
+                <a href="#"><img src="twitter-icon.png" alt="Twitter"></a>
+                <a href="#"><img src="linkedin-icon.png" alt="LinkedIn"></a>
+            </div> -->
+        </div>
+    </footer>
+</body>
+
+</html>
