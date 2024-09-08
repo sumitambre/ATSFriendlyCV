@@ -98,6 +98,19 @@
                 <p>{{ reference.referenceCompany }}, Contact: {{ reference.contactInformation }}</p>
                 {% endfor %}
             </div>
+
+             <!-- Languages Section -->
+    <div class="section" {% if not cv_data_constant.languages %}style="display:none" {% endif %}>
+        <h2>Languages</h2>
+        <p>{{ cv_data_constant.languages }}</p>
+    </div>
+
+    <!-- Interests Section -->
+    <div class="section" {% if not cv_data_constant.interests %}style="display:none" {% endif %}>
+        <h2>Interests</h2>
+        <p>{{ cv_data_constant.interests }}</p>
+    </div>
+
         </div>
     </div>
     <div>
