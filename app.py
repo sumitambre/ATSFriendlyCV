@@ -215,7 +215,7 @@ def userprofile():
         # Process form data and create new CV
         new_cv = UserCV(
             user_id=user_cv_id,
-            full_name=validate_and_truncate(request.form['fullName'], 100),
+            full_name=validate_and_truncate(request.form['fullName'].upper(), 100),
             phone_number=validate_and_truncate(request.form['phoneNumber'], 50),
             email=validate_and_truncate(request.form['email'], 100),
             linkedin=validate_and_truncate(request.form.get('linkedin'), 100),
@@ -233,25 +233,25 @@ def userprofile():
         experience_count = int(request.form.get('experienceCount', 0))
         i = 1
         while i <= experience_count and i <= 15:
-            company_name = request.form.get(f'companyName{i}', None)
+            company_name = validate_and_truncate(request.form.get(f'companyName{i}', 'NA').upper(), 100)
             if company_name:
-                city = validate_and_truncate(request.form.get(f'city{i}', None), 100)
-                position = validate_and_truncate(request.form.get(f'role{i}', None), 100)
-                description = validate_and_truncate(request.form.get(f'roleDescription{i}', None), 1500)  # Assuming Text can be large
-                start_month = validate_and_truncate(request.form.get(f'startMonth{i}', None), 25)
-                start_year = validate_and_truncate(request.form.get(f'startYear{i}', None), 25)
+                city = validate_and_truncate(request.form.get(f'city{i}', 'NA').upper(), 100)
+                position = validate_and_truncate(request.form.get(f'role{i}', 'NA').upper(), 100)
+                description = validate_and_truncate(request.form.get(f'roleDescription{i}', 'NA'), 1500)  # Assuming Text can be large
+                start_month = validate_and_truncate(request.form.get(f'startMonth{i}', 'NA'), 25)
+                start_year = validate_and_truncate(request.form.get(f'startYear{i}', 'NA'), 25)
                 current_working = validate_and_truncate(request.form.get(f'current{i}', 'not working'), 25)
 
                 if current_working == 'working':
                     end_month = 'Present'
                     end_year = 'Present'
                 else:
-                    end_month = validate_and_truncate(request.form.get(f'endMonth{i}', None), 25)
-                    end_year = validate_and_truncate(request.form.get(f'endYear{i}', None), 25)
+                    end_month = validate_and_truncate(request.form.get(f'endMonth{i}', 'NA'), 25)
+                    end_year = validate_and_truncate(request.form.get(f'endYear{i}', 'NA'), 25)
 
                 new_experience = WorkExperience(
                     cv_id=new_cv.id,
-                    company_name=validate_and_truncate(company_name, 100),
+                    company_name=company_name,
                     city=city,
                     position=position,
                     description=description,
@@ -268,18 +268,18 @@ def userprofile():
         education_count = int(request.form.get('educationCount', 0))
         i = 1
         while i <= education_count and i <= 15:
-            institution_name = request.form.get(f'institutionName{i}', None)
+            institution_name = validate_and_truncate(request.form.get(f'institutionName{i}', 'NA').upper(), 100)
             if institution_name:
-                city = validate_and_truncate(request.form.get(f'cityEdu{i}', None), 100)
-                degree = validate_and_truncate(request.form.get(f'degree{i}', None), 100)
-                start_month = validate_and_truncate(request.form.get(f'startMonth{i}', None), 25)
-                start_year = validate_and_truncate(request.form.get(f'startYear{i}', None), 25)
-                end_month = validate_and_truncate(request.form.get(f'endMonth{i}', None), 25)
-                end_year = validate_and_truncate(request.form.get(f'endYear{i}', None), 25)
+                city = validate_and_truncate(request.form.get(f'cityEdu{i}', 'NA').upper(), 100)
+                degree = validate_and_truncate(request.form.get(f'degree{i}', 'NA').upper(), 100)
+                start_month = validate_and_truncate(request.form.get(f'startMonth{i}', 'NA'), 25)
+                start_year = validate_and_truncate(request.form.get(f'startYear{i}', 'NA'), 25)
+                end_month = validate_and_truncate(request.form.get(f'endMonth{i}', 'NA'), 25)
+                end_year = validate_and_truncate(request.form.get(f'endYear{i}', 'NA'), 25)
 
                 new_education = Education(
                     cv_id=new_cv.id,
-                    institution_name=validate_and_truncate(institution_name, 100),
+                    institution_name=institution_name,
                     city=city,
                     degree=degree,
                     start_month=start_month,
@@ -294,15 +294,15 @@ def userprofile():
         certificate_count = int(request.form.get('certificateCount', 0))
         i = 1
         while i <= certificate_count and i <= 15:
-            certificate_name = request.form.get(f'certificateName{i}', None)
+            certificate_name = validate_and_truncate(request.form.get(f'certificateName{i}', 'NA').upper(), 100),
             if certificate_name:
-                issuing_organization = validate_and_truncate(request.form.get(f'issuingOrg{i}', None), 100)
-                issue_month = validate_and_truncate(request.form.get(f'issueMonth{i}', None), 25)
-                issue_year = validate_and_truncate(request.form.get(f'issueYear{i}', None), 25)
+                issuing_organization = validate_and_truncate(request.form.get(f'issuingOrg{i}', 'NA').upper(), 100)
+                issue_month = validate_and_truncate(request.form.get(f'issueMonth{i}', 'NA'), 25)
+                issue_year = validate_and_truncate(request.form.get(f'issueYear{i}', 'NA'), 25)
 
                 new_certificate = Certificate(
                     cv_id=new_cv.id,
-                    certificate_name=validate_and_truncate(certificate_name, 100),
+                    certificate_name=certificate_name,
                     issuing_organization=issuing_organization,
                     issue_month=issue_month,
                     issue_year=issue_year
@@ -314,13 +314,13 @@ def userprofile():
         project_count = int(request.form.get('projectCount', 0))
         i = 1
         while i <= project_count and i <= 15:
-            project_title = validate_and_truncate(request.form.get(f'projectTitle{i}', None),100)
+            project_title = validate_and_truncate(request.form.get(f'projectTitle{i}', 'NA').title(),100)
             if project_title:
-                description = validate_and_truncate(request.form.get(f'projectDescription{i}', None), 1000)  # Assuming Text can be large
+                description = validate_and_truncate(request.form.get(f'projectDescription{i}', 'NA'), 1000)  # Assuming Text can be large
 
                 new_project = Project(
                     cv_id=new_cv.id,
-                    project_title=validate_and_truncate(project_title, 100),
+                    project_title=project_title,
                     description=description
                 )
                 db.session.add(new_project)
@@ -330,15 +330,15 @@ def userprofile():
         reference_count = int(request.form.get('referenceCount', 0))
         i = 1
         while i <= reference_count and i <= 15:
-            reference_name = request.form.get(f'referenceName{i}', None)
+            reference_name = validate_and_truncate(request.form.get(f'referenceName{i}', 'NA'), 100)
             if reference_name:
-                reference_title = validate_and_truncate(request.form.get(f'referenceTitle{i}', None), 100)
-                reference_company = validate_and_truncate(request.form.get(f'referenceCompany{i}', None), 100)
-                contact_information = validate_and_truncate(request.form.get(f'referenceContact{i}', None), 200)
+                reference_title = validate_and_truncate(request.form.get(f'referenceTitle{i}', 'NA'), 100)
+                reference_company = validate_and_truncate(request.form.get(f'referenceCompany{i}', 'NA'), 100)
+                contact_information = validate_and_truncate(request.form.get(f'referenceContact{i}', 'NA'), 200)
 
                 new_reference = Reference(
                     cv_id=new_cv.id,
-                    reference_name=validate_and_truncate(reference_name, 100),
+                    reference_name=reference_name,
                     reference_title=reference_title,
                     reference_company=reference_company,
                     contact_information=contact_information
@@ -371,7 +371,7 @@ def update(cv_id):
 
     if request.method == 'POST':
         # Update the main CV details
-        cv.full_name = validate_and_truncate(request.form['fullName'], 100)
+        cv.full_name = validate_and_truncate(request.form['fullName'].upper(), 100)
         cv.phone_number = validate_and_truncate(request.form['phoneNumber'], 50)
         cv.email = validate_and_truncate(request.form['email'], 100)
         cv.linkedin = validate_and_truncate(request.form['linkedin'], 100)
@@ -387,7 +387,8 @@ def update(cv_id):
         WorkExperience.query.filter_by(cv_id=cv_id).delete()  # Optionally clear existing and add fresh to avoid orphans
         i = 1
         while i <= experience_count and i <= 15:
-            company_name = request.form.get(f'companyName{i}')
+            company_name = validate_and_truncate(request.form.get(f'companyName{i}', 'NA').upper(), 100)
+            print(company_name)
             if company_name:
                 current_working = request.form.get(f'current{i}', 'not working')
 
@@ -395,14 +396,14 @@ def update(cv_id):
                     end_month = 'Present'
                     end_year = 'Present'
                 else:
-                    end_month = validate_and_truncate(request.form.get(f'endMonth{i}', None), 25)
-                    end_year = validate_and_truncate(request.form.get(f'endYear{i}', None), 25)
+                    end_month = validate_and_truncate(request.form.get(f'endMonth{i}', 'NA'), 25)
+                    end_year = validate_and_truncate(request.form.get(f'endYear{i}', 'NA'), 25)
 
                 new_experience = WorkExperience(
                     cv_id=cv_id,
                     company_name=validate_and_truncate(company_name, 100),
-                    city=validate_and_truncate(request.form.get(f'city{i}', None), 100),
-                    position=validate_and_truncate(request.form.get(f'role{i}'), 100),
+                    city=validate_and_truncate(request.form.get(f'city{i}', 'NA').upper(), 100),
+                    position=validate_and_truncate(request.form.get(f'role{i}').upper(), 100),
                     description=validate_and_truncate(request.form.get(f'roleDescription{i}'), 1500),  # Assuming Text can be large
                     start_month=validate_and_truncate(request.form.get(f'startMonth{i}'), 25),
                     start_year=validate_and_truncate(request.form.get(f'startYear{i}'), 25),
@@ -415,7 +416,7 @@ def update(cv_id):
             else:
                 # Update experience_count to potentially exit loop earlier if there are gaps in company names
                 experience_count += 1  # This seems to be intended to add more potential experience slots?
-                print("No company name provided for userprofile", i)
+                # print("No company name provided for userprofile", i)
                 i += 1  # Still need to increment i to avoid an infinite loop
 
         # Commit the session only after adding all the new experiences
@@ -426,17 +427,17 @@ def update(cv_id):
         Education.query.filter_by(cv_id=cv_id).delete()
         i = 1
         while i <= education_count and i <= 15:
-            institution_name = request.form.get(f'institutionName{i}')
+            institution_name = validate_and_truncate(request.form.get(f'institutionName{i}', 'NA').upper(), 100)
             if institution_name:
                 new_education = Education(
                     cv_id=cv_id,
-                    institution_name=validate_and_truncate(institution_name, 100),
-                    city=validate_and_truncate(request.form.get(f'cityEdu{i}', None), 100),
-                    degree=validate_and_truncate(request.form.get(f'degree{i}'), 100),
-                    start_month=validate_and_truncate(request.form.get(f'startMonthEdu{i}'), 25),
-                    start_year=validate_and_truncate(request.form.get(f'startYearEdu{i}'), 25),
-                    end_month=validate_and_truncate(request.form.get(f'endMonthEdu{i}', None), 25),
-                    end_year=validate_and_truncate(request.form.get(f'endYearEdu{i}', None), 25)
+                    institution_name=institution_name,
+                    city=validate_and_truncate(request.form.get(f'cityEdu{i}', 'NA').upper(), 100),
+                    degree=validate_and_truncate(request.form.get(f'degree{i}', 'NA').upper(), 100),
+                    start_month=validate_and_truncate(request.form.get(f'startMonthEdu{i}', 'NA'), 25),
+                    start_year=validate_and_truncate(request.form.get(f'startYearEdu{i}', 'NA'), 25),
+                    end_month=validate_and_truncate(request.form.get(f'endMonthEdu{i}', 'NA'), 25),
+                    end_year=validate_and_truncate(request.form.get(f'endYearEdu{i}', 'NA'), 25)
                 )
                 db.session.add(new_education)
                 i += 1  # Only increment `i` if a valid institution name is found
@@ -454,14 +455,14 @@ def update(cv_id):
         Certificate.query.filter_by(cv_id=cv_id).delete()
         i = 1
         while i <= certificate_count and i <= 15:
-            certificate_name = request.form.get(f'certificateName{i}')
+            certificate_name = validate_and_truncate(request.form.get(f'certificateName{i}', 'NA').upper(), 100)
             if certificate_name:
                 new_certificate = Certificate(
                     cv_id=cv_id,
-                    certificate_name=validate_and_truncate(certificate_name, 100),
-                    issuing_organization=validate_and_truncate(request.form.get(f'issuingOrg{i}'), 100),
-                    issue_month=validate_and_truncate(request.form.get(f'issueMonth{i}'), 25),
-                    issue_year=validate_and_truncate(request.form.get(f'issueYear{i}'), 25)
+                    certificate_name=certificate_name,
+                    issuing_organization=validate_and_truncate(request.form.get(f'issuingOrg{i}', 'NA').upper(), 100),
+                    issue_month=validate_and_truncate(request.form.get(f'issueMonth{i}', 'NA'), 25),
+                    issue_year=validate_and_truncate(request.form.get(f'issueYear{i}', 'NA'), 25)
                 )
                 db.session.add(new_certificate)
                 i += 1
@@ -477,12 +478,12 @@ def update(cv_id):
         Project.query.filter_by(cv_id=cv_id).delete()
         i = 1
         while i <= project_count and i <= 15:
-            project_title = request.form.get(f'projectTitle{i}', None)
+            project_title = validate_and_truncate(request.form.get(f'projectTitle{i}', 'NA').upper(),100)
             if project_title:
                 new_project = Project(
                     cv_id=cv_id,
-                    project_title=validate_and_truncate(project_title, 100),
-                    description=validate_and_truncate(request.form.get(f'projectDescription{i}', None), 1000)  # Assuming Text can be large
+                    project_title=project_title,
+                    description=validate_and_truncate(request.form.get(f'projectDescription{i}', 'NA'),1000) # Assuming Text can be large
                 )
                 db.session.add(new_project)
                 i += 1
@@ -498,14 +499,14 @@ def update(cv_id):
         Reference.query.filter_by(cv_id=cv_id).delete()
         i = 1
         while i <= reference_count and i <= 15:
-            reference_name = request.form.get(f'referenceName{i}')
+            reference_name = validate_and_truncate(request.form.get(f'referenceName{i}','NA').upper(), 100),
             if reference_name:
                 new_reference = Reference(
                     cv_id=cv_id,
-                    reference_name=validate_and_truncate(reference_name, 100),
-                    reference_title=validate_and_truncate(request.form.get(f'referenceTitle{i}'), 100),
-                    reference_company=validate_and_truncate(request.form.get(f'referenceCompany{i}'), 100),
-                    contact_information=validate_and_truncate(request.form.get(f'referenceContact{i}'), 200)
+                    reference_name=reference_name,
+                    reference_title=validate_and_truncate(request.form.get(f'referenceTitle{i}','NA').upper(), 100),
+                    reference_company=validate_and_truncate(request.form.get(f'referenceCompany{i}','NA').upper(), 100),
+                    contact_information=validate_and_truncate(request.form.get(f'referenceContact{i}','NA').upper(), 200)
                 )
                 db.session.add(new_reference)
                 i += 1
@@ -534,8 +535,8 @@ def jd(cv_id):
         # Update the main CV details
         JobDetails.query.filter_by(cv_id=cv_id).delete()  # Optionally clear existing and add fresh to avoid orphans
 
-        job_title = validate_and_truncate(request.form.get('jobTitle', None), 100)
-        job_description = validate_and_truncate(request.form.get('jobDescription', None),
+        job_title = validate_and_truncate(request.form.get('jobTitle', 'NA'), 100)
+        job_description = validate_and_truncate(request.form.get('jobDescription', 'NA'),
                                                 1500)  # Assuming Text can be large
 
         new_jobdetails = JobDetails(
@@ -797,6 +798,9 @@ def validate_and_truncate(data, max_length):
     Returns:
         str: The truncated string if it exceeds max_length, otherwise the original string.
     """
+    if data == "NA":
+        return None
+
     if data and len(data) > max_length:
         return data[:max_length]
     return data
