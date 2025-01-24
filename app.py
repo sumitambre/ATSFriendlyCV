@@ -388,7 +388,7 @@ def update(cv_id):
         i = 1
         while i <= experience_count and i <= 15:
             company_name = validate_and_truncate(request.form.get(f'companyName{i}', 'NA').upper(), 100)
-            print(company_name)
+            # print(company_name)
             if company_name:
                 current_working = request.form.get(f'current{i}', 'not working')
 
@@ -617,7 +617,7 @@ def get_cv_AIdata(cv_id):
 
         # Gemini code
         GEM_API_KEY = os.getenv('GEMINI_API_KEY')
-        print(GEM_API_KEY)
+        # print(GEM_API_KEY)
         genai.configure(api_key=GEM_API_KEY)
         model = genai.GenerativeModel('gemini-1.5-flash-latest')
         response = model.generate_content(prompt)
