@@ -50,6 +50,10 @@ class UserCV(db.Model):
     professional_affiliations = db.Column(db.Text, nullable=True)
     languages = db.Column(db.Text, nullable=True)
     interests = db.Column(db.Text, nullable=True)
+    generate_count = db.Column(db.Integer, default=0, nullable=False)  # Default to 0
+    allowed_count = db.Column(db.Integer, default=5, nullable=False)  # Default to 5 or any other value suitable
+
+
     # Relationships
     work_experiences = db.relationship('WorkExperience', backref='user_cv', lazy=True)
     educations = db.relationship('Education', backref='user_cv', lazy=True)
@@ -532,7 +536,11 @@ def jd(cv_id):
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        # Update the main CV details
+        if cv.allowed_count > cv.generate_count:  # Check if the user is allowed to generate more CVs
+            cv.generate_count += 1  # Increment the generate count
+            db.session.commit()  # Commit the changes
+
+        # Proceed with job detail update or creation
         JobDetails.query.filter_by(cv_id=cv_id).delete()  # Optionally clear existing and add fresh to avoid orphans
 
         job_title = validate_and_truncate(request.form.get('jobTitle', 'NA'), 100)
@@ -605,13 +613,13 @@ def get_cv_AIdata(cv_id):
 
         # Prepare the prompt
         prompt = f"""
-            You are an expert and smart ATS CV writer. You follow each instruction. CV data is in JSON format, showing user's work experiences, skills, and projects: {cv_data_json}
+            You are a highly skilled ATS CV writer with a deep understanding of technology and job markets. Your task is to create a tailored CV based on the JSON-formatted input data provided below, making sure to match the specific job description and job title. It is crucial that you maintain the integrity of the input data, reflecting only the genuine skills, experiences, and qualifications of the user without adding or assuming any information not explicitly provided.. CV data is in JSON format, showing user's work experiences, skills, and projects: {cv_data_json}
 
-            Please read job description user is applying for: {job_details_json}
+            Please read job description and job title user is applying for : {job_details_json}
 
             The desired output format is as follows Content-Type: application/json: {output_template}
 
-            Ensure the information remains genuine and reflects the user's capability. Do not add false skills and any false data and everything should be in valid JSON format with proper enclosed in double quotes.
+            Ensure all information is genuine, reflecting the user's true capabilities and experiences, and formatted correctly in JSON with proper use of double quotes. Do not add false skills or embellish the user's qualifications.
             """
 
 

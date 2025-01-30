@@ -99,24 +99,29 @@
                 {% endfor %}
             </div>
 
-             <!-- Languages Section -->
-    <div class="section" {% if not cv_data_constant.languages %}style="display:none" {% endif %}>
-        <h2>Languages</h2>
-        <p>{{ cv_data_constant.languages }}</p>
-    </div>
+            <!-- Languages Section -->
+            <div class="section" {% if not cv_data_constant.languages %}style="display:none" {% endif %}>
+                <h2>Languages</h2>
+                <p>{{ cv_data_constant.languages }}</p>
+            </div>
 
-    <!-- Interests Section -->
-    <div class="section" {% if not cv_data_constant.interests %}style="display:none" {% endif %}>
-        <h2>Interests</h2>
-        <p>{{ cv_data_constant.interests }}</p>
-    </div>
+            <!-- Interests Section -->
+            <div class="section" {% if not cv_data_constant.interests %}style="display:none" {% endif %}>
+                <h2>Interests</h2>
+                <p>{{ cv_data_constant.interests }}</p>
+            </div>
 
         </div>
     </div>
     <div>
+        <ul>
+            <li>You can click and edit the CV as needed.</li>
+            <li>Ensure all CV details are accurate before downloading.</li>
+            <li>When the printer settings open during download, deselect the header, footer, and background graphics options.</li>
+        </ul>
+        
         <!-- Added button for PDF Download functionality -->
         <button type="button" id="toPDF">Download CV in PDF</button>
-
     </div>
     <script>
         const pdf_btn = document.querySelector('#toPDF');

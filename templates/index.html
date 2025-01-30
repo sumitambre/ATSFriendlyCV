@@ -5,76 +5,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JobReadyCV</title>
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/index.css')}}">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- AOS Library CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+
+    <!-- Favicon (Optional) -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
 </head>
 
 <body>
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="spinner-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
     <header class="header">
         <div class="containerHead">
             <h1 class="logo">
-                <img src="{{url_for('static', filename='images/jobreadycv.png')}}" alt="resume" width="200px"
-                        height="90px" onclick="location.href='login'">
+                <img src="{{ url_for('static', filename='images/jobreadycv.png') }}" alt="JobReadyCV Logo" width="200px"
+                    height="90px" onclick="location.href='login'" loading="lazy">
             </h1>
             <nav class="nav">
-                <button class="btn btnUp" onclick="location.href='register'">Sign up</button>
-                <button class="btn btn-primary btnIn" onclick="location.href='login'">log in</button>
+                <button class="btn btnUp" onclick="location.href='register'" aria-label="Sign Up">Sign up</button>
+                <button class="btn btn-primary btnIn" onclick="location.href='login'" aria-label="Log In">Log
+                    in</button>
+                <!-- Removed Dark Mode Toggle Button -->
             </nav>
         </div>
     </header>
 
-    <section class="hero">
+    <!-- Hero Section -->
+    <section class="hero" data-aos="fade-up">
         <div class="containerHero">
             <div class="textHero">
                 <h2>Create a <span class="highlight">resume</span> that secures your <span class="highlight">dream
                         job</span></h2>
                 <p>Build a resume that captures the interest of recruiters and gets you hired. It's fast and easy to
                     use.</p>
-                <button class="btn btn-primary btnTry" type="button" onclick="location.href='login'">Try for free</button>
+                <button class="btn btn-primary btnTry" type="button" onclick="location.href='login'"
+                    aria-label="Try for Free">Try for free</button>
             </div>
             <div class="imgHero">
-                <img src="{{url_for('static', filename='images/resume.png')}}" alt="resume" width="400px"
-                    height="400px">
+                <img src="{{ url_for('static', filename='images/resume.png') }}" alt="Resume Illustration" width="400px"
+                    height="400px" loading="lazy">
             </div>
+        </div>
     </section>
 
-    <section class="steps">
+    <!-- Steps Section -->
+    <section class="steps" data-aos="fade-up" data-aos-delay="200">
         <div class="containerSteps">
             <h2>Build your <span class="highlight">resume</span> in 3 steps</h2>
-            <div class="step" style="justify-content: left;">
+            <!-- Step 1 -->
+            <div class="step">
                 <div class="imgStep">
-                    <img src="{{url_for('static', filename='images/Keyword Optimization.png')}}" alt="resume"
-                        width="200px" height="200px">
+                    <img src="{{ url_for('static', filename='images/Keyword Optimization.png') }}" alt="Step 1 Image"
+                        width="200px" height="200px" loading="lazy">
                 </div>
                 <div class="textStep">
                     <div class="count">
                         <h3>1.</h3>
                     </div>
                     <div class="descStep">
-                        <h3> Fill Your Details</h3>
+                        <h3>Fill Your Details</h3>
                         <p>Enter your basic information and more.</p>
                     </div>
                 </div>
             </div>
-            <div class="step" style="justify-content: right;">
+            <!-- Step 2 -->
+            <div class="step">
                 <div class="imgStep">
-                    <img src="{{url_for('static', filename='images/First Impressions Matter.png')}}" alt="resume"
-                        width="400px" height="400px">
+                    <img src="{{ url_for('static', filename='images/First Impressions Matter.png') }}"
+                        alt="Step 2 Image" width="200px" height="200px" loading="lazy">
                 </div>
                 <div class="textStep">
                     <div class="count">
                         <h3>2.</h3>
                     </div>
                     <div class="descStep">
-                        <h3>Paste Job-description</h3>
+                        <h3>Paste Job Description</h3>
                         <p>Copy and paste the job description from the company's portal.</p>
                     </div>
                 </div>
-
             </div>
-            <div class="step" style="justify-content: left;">
+            <!-- Step 3 -->
+            <div class="step">
                 <div class="imgStep">
-                    <img src="{{url_for('static', filename='images/Saves Time.png')}}" alt="resume" width="400px"
-                        height="400px">
+                    <img src="{{ url_for('static', filename='images/Saves Time.png') }}" alt="Step 3 Image"
+                        width="200px" height="200px" loading="lazy">
                 </div>
                 <div class="textStep">
                     <div class="count">
@@ -89,33 +118,34 @@
         </div>
     </section>
 
-    <section class="cv-editor">
-
+    <!-- CV Editor Section -->
+    <section class="cv-editor" data-aos="fade-up" data-aos-delay="400">
         <div class="containerCV">
-
             <div class="leftCV">
                 <div class="titleCV">
                     <h3>Snapshot of our CV editor</h3>
                 </div>
-                <div class="screenshot"><img src="{{url_for('static', filename='images/TestResume.png')}}" alt="resume"
-                        width="400px" height="600px">
+                <div class="screenshot">
+                    <img src="{{ url_for('static', filename='images/TestResume.png') }}" alt="CV Editor Screenshot"
+                        width="400px" height="600px" loading="lazy">
                 </div>
             </div>
             <div class="rightCV">
                 <p>All the flexibility & intuition you need to build a resume that stands out.</p>
                 <ul>
-                    <li><span class="highlight">Instant AI-Created Resumes: </span><br> Get a tailored resume in moments
-                        with our advanced AI..</li>
-                    <li><span class="highlight">Easy Edits:</span><br> Make quick adjustments to your CV and keep it
+                    <li><span class="highlight">Instant AI-Created Resumes:</span> Get a tailored resume in moments
+                        with our advanced AI.</li>
+                    <li><span class="highlight">Easy Edits:</span> Make quick adjustments to your CV and keep it
                         updated.</li>
-                    <li><span class="highlight">Free Multiple Downloads: </span><br> Download your resume in different
+                    <li><span class="highlight">Free Multiple Downloads:</span> Download your resume in different
                         formats as many times as you need, for free.</li>
                 </ul>
-                <button class="btn btn-primary btnTry" onclick="location.href='login'">Create Resume</button>
+                <button class="btn btn-primary btnTry" onclick="location.href='login'" aria-label="Create Resume">Create
+                    Resume</button>
 
                 <h3>Our Stats:</h3>
                 <div class="stats">
-                    <p><span class="bolder">200+</span></strong> <br>users</p>
+                    <p><span class="bolder">200+</span> <br>Users</p>
                     <div class="divider"></div>
                     <p><span class="bolder">2 mins</span> <br>Average resume building time</p>
                 </div>
@@ -123,72 +153,79 @@
         </div>
     </section>
 
-    <section class="benefits">
+    <!-- Benefits Section -->
+    <section class="benefits" data-aos="fade-up" data-aos-delay="600">
         <h2>Benefits Of Using Our Product</h2>
         <h3>Why Choose us?</h3>
         <div class="containerBenfits">
+            <!-- Benefit 1 -->
             <div class="benefit">
                 <div class="imgbenefit">
-                    <img src="{{url_for('static', filename='images/First Impressions Matter.png')}}" alt="resume"
-                        width="200px" height="200px">
+                    <img src="{{ url_for('static', filename='images/First Impressions Matter.png') }}"
+                        alt="First Impressions Matter" width="200px" height="200px" loading="lazy">
                 </div>
                 <div class="textBenefit">
-                    <h3> First Impressions Matter: </h3>
+                    <h3>First Impressions Matter</h3>
                     <p>JobReadyCV ensures your CV makes a positive and professional first impression, increasing your
                         chances of being noticed by employers.</p>
                 </div>
             </div>
+            <!-- Benefit 2 -->
             <div class="benefit">
                 <div class="imgbenefit">
-                    <img src="{{url_for('static', filename='images/Enhanced Visibility.png')}}" alt="resume"
-                        width="200px" height="200px">
+                    <img src="{{ url_for('static', filename='images/Enhanced Visibility.png') }}"
+                        alt="Enhanced Visibility" width="200px" height="200px" loading="lazy">
                 </div>
                 <div class="textBenefit">
-                    <h3>Enhanced Visibility:</h3>
+                    <h3>Enhanced Visibility</h3>
                     <p>With a professional CV, you're more likely to be shortlisted for interviews, increasing your
                         visibility in the job market.</p>
                 </div>
             </div>
+            <!-- Benefit 3 -->
             <div class="benefit">
                 <div class="imgbenefit">
-                    <img src="{{url_for('static', filename='images/Tailored Content with AI.png')}}" alt="resume"
-                        width="200px" height="200px">
+                    <img src="{{ url_for('static', filename='images/Tailored Content with AI.png') }}"
+                        alt="Tailored Content with AI" width="200px" height="200px" loading="lazy">
                 </div>
                 <div class="textBenefit">
-                    <h3> Tailored Content with AI: </h3>
+                    <h3>Tailored Content with AI</h3>
                     <p>Our AI customizes your CV to match specific job descriptions, highlighting relevant skills and
                         experiences for each application.</p>
                 </div>
             </div>
+            <!-- Benefit 4 -->
             <div class="benefit">
                 <div class="imgbenefit">
-                    <img src="{{url_for('static', filename='images/Keyword Optimization.png')}}" alt="resume"
-                        width="200px" height="200px">
+                    <img src="{{ url_for('static', filename='images/Keyword Optimization.png') }}"
+                        alt="Keyword Optimization" width="200px" height="200px" loading="lazy">
                 </div>
                 <div class="textBenefit">
-                    <h3>Keyword Optimization:</h3>
+                    <h3>Keyword Optimization</h3>
                     <p>JobReadyCV uses AI to optimize your CV with the right keywords, ensuring it passes through
                         Applicant Tracking Systems (ATS) and reaches recruiters.</p>
                 </div>
             </div>
+            <!-- Benefit 5 -->
             <div class="benefit">
                 <div class="imgbenefit">
-                    <img src="{{url_for('static', filename='images/Highlighting Achievements.png')}}" alt="resume"
-                        width="200px" height="200px">
+                    <img src="{{ url_for('static', filename='images/Highlighting Achievements.png') }}"
+                        alt="Highlighting Achievements" width="200px" height="200px" loading="lazy">
                 </div>
                 <div class="textBenefit">
-                    <h3> Highlighting Achievements:</h3>
+                    <h3>Highlighting Achievements</h3>
                     <p>JobReadyCV helps you articulate your accomplishments effectively, making you a more compelling
                         candidate.</p>
                 </div>
             </div>
+            <!-- Benefit 6 -->
             <div class="benefit">
                 <div class="imgbenefit">
-                    <img src="{{url_for('static', filename='images/Saves Time.png')}}" alt="resume" width="200px"
-                        height="200px">
+                    <img src="{{ url_for('static', filename='images/Saves Time.png') }}" alt="Saves Time" width="200px"
+                        height="200px" loading="lazy">
                 </div>
                 <div class="textBenefit">
-                    <h3> Saves Time</h3>
+                    <h3>Saves Time</h3>
                     <p>JobReadyCV saves you time by handling the writing and formatting, allowing you to focus on other
                         aspects of your job search.</p>
                 </div>
@@ -196,15 +233,44 @@
         </div>
     </section>
 
-    <section class="about">
-        <div class="containerAbout">
-            <div>
-                <h2>About JobReadyCV</h2>
+    <!-- Testimonials Section -->
+    <section class="testimonials" data-aos="fade-up" data-aos-delay="800">
+        <h2>What Our Users Say</h2>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <!-- Testimonial 1 -->
+                <div class="swiper-slide testimonial">
+                    <p>"JobReadyCV helped me land my dream job in just two weeks!"</p>
+                    <p class="author">- Jane Doe</p>
+                </div>
+                <!-- Testimonial 2 -->
+                <div class="swiper-slide testimonial">
+                    <p>"The AI-powered resume builder is a game-changer."</p>
+                    <p class="author">- John Smith</p>
+                </div>
+                <!-- Testimonial 3 -->
+                <div class="swiper-slide testimonial">
+                    <p>"I love how easy it is to create and customize my resume."</p>
+                    <p class="author">- Emily Johnson</p>
+                </div>
+                <!-- Add more testimonials as needed -->
             </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Navigation -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" data-aos="fade-up" data-aos-delay="1000">
+        <div class="containerAbout">
+            <h2>About JobReadyCV</h2>
             <div class="descAbout">
                 <div class="aboutImage">
-                    <img src="{{url_for('static', filename='images/creative_dev.png')}}" alt="resume" width="400px"
-                        height="400px">
+                    <img src="{{ url_for('static', filename='images/creative_dev.png') }}" alt="CreativeDevs Team"
+                        width="400px" height="400px" loading="lazy">
                 </div>
                 <div class="aboutText">
                     <p>JobReadyCV is a product of CreativeDevs – a global innovation and digital transformation enabler.
@@ -212,41 +278,99 @@
                         JobReadyCV, we help job seekers build perfect and targeted job applications, ensuring they land
                         in front of the right people.
                     </p>
-                    <!-- <button class="btn btn-primary btnRead" onclick="location.href='login'">Read More</button> -->
                 </div>
             </div>
         </div>
     </section>
 
-   
-
-
-
-    <footer>
+    <!-- Footer -->
+    <footer data-aos="fade-up" data-aos-delay="1200">
         <div class="containerFooter">
-
             <div class="companyInfo">
                 <h1 class="logo">JobReadyCV</h1>
-                <p>Create your resume in minutes, get your dream job in blink.</p>
+                <p>Create your resume in minutes, get your dream job in a blink.</p>
             </div>
-
             <!-- <div class="footerLinks">
                 <a href="#">Terms of Service</a>
                 <a href="#">Privacy Policy</a>
-
             </div> -->
-            <!-- <div class="contact-info">
+            <div class="contact-info">
                 <p>Contact Us</p>
-                <p>+234 809 464 4635</p>
-                <p>agent@gmail.com</p>
-            </div> -->
-            <!-- <div class="socialMedia">
-                <a href="#"><img src="facebook-icon.png" alt="Facebook"></a>
-                <a href="#"><img src="twitter-icon.png" alt="Twitter"></a>
-                <a href="#"><img src="linkedin-icon.png" alt="LinkedIn"></a>
-            </div> -->
+                <p>+968 9067 2309</p>
+                <p>official.creativedevs@gmail.com</p>
+            </div>
+            <div class="socialMedia">
+                <a href="#" aria-label="Facebook">
+                    <img src="{{ url_for('static', filename='images/facebook-icon.png') }}" alt="Facebook Icon"
+                        loading="lazy">
+                </a>
+                <a href="#" aria-label="Twitter">
+                    <img src="{{ url_for('static', filename='images/whatsapp.png') }}" alt="Whatsapp Icon"
+                        loading="lazy">
+                </a>
+                <!-- <a href="#" aria-label="LinkedIn">
+                    <img src="{{ url_for('static', filename='images/linkedin-icon.svg') }}" alt="LinkedIn Icon"
+                        loading="lazy">
+                </a> -->
+            </div>
         </div>
     </footer>
+
+    <!-- Back-to-Top Button -->
+    <button id="backToTop" title="Go to top" aria-label="Back to Top">↑</button>
+
+    <!-- Swiper.js JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <!-- AOS Library JS -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+        });
+
+        // Initialize Swiper
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 'auto', // Automatically calculate how many slides fit
+            spaceBetween: 15, // Space between slides
+            loop: true, // Ensures infinite looping
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+
+        // Back-to-Top Button Functionality
+        const backToTopButton = document.getElementById("backToTop");
+
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
+            }
+        }
+
+        backToTopButton.addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Hide Loading Spinner After Page Load
+        window.addEventListener('load', () => {
+            const spinner = document.getElementById('loadingSpinner');
+            spinner.style.display = 'none';
+        });
+    </script>
 </body>
 
 </html>

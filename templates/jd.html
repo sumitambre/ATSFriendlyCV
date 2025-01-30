@@ -22,7 +22,17 @@
                     <textarea id="jobDescription" name="jobDescription" rows="20" required></textarea>
                 </div>
                 <div>
-                    <button type="submit">Submit</button>
+                    {% if cv.allowed_count - cv.generate_count > 0 %}
+                    <button type="submit">
+                        Generate Your CV (Remaining: {{ cv.allowed_count - cv.generate_count }})
+                    </button>
+                    {% else %}
+                    <p>No more generates left! Please contact us to buy more:</p>
+                    <ul class="no-bullets">
+                        <li><a href="https://wa.me/919028823445" target="_blank">WhatsApp us at +91-8888370543</a></li>
+                        <li><a href="https://wa.me/96890672309" target="_blank">WhatsApp us at +968-90672309</a></li>
+                    </ul>
+                    {% endif %}
                 </div>
             </form>
         </div>

@@ -7,6 +7,17 @@ body {
     background: #f9f9f9;
 }
 
+button {
+  background-color: #ff6600;
+  ;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 5px;
+}
+
 .container {
     max-width: 800px;
     margin: auto;
